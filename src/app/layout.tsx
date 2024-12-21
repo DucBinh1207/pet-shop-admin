@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Baloo_2, Quicksand } from "next/font/google";
 import "./globals.css";
 import "@/css/satoshi.css";
 import "@/css/style.css";
 import ToastNotification from "@/components/common/toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const baloo_2_init = Baloo_2({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-baloo_2",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const quicksand_init = Quicksand({
+  subsets: ["latin", "vietnamese"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-quicksand",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full w-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${baloo_2_init.variable} ${quicksand_init.variable} antialiased`}
       >
         {children}
 

@@ -12,6 +12,9 @@ import { LoginApi } from "@/services/api/auth-api";
 import FormInput from "@/components/form-input";
 import Button from "@/components/common/button";
 import cn from "@/utils/style/cn";
+import useRole from "@/store/useRole";
+import { useShallow } from "zustand/shallow";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.string().email("Invalid email format"),
@@ -39,13 +42,22 @@ export default function Page() {
     resolver: zodResolver(schema),
   });
 
+  const router = useRouter();
+
+  const { setIdRole } = useRole(
+    useShallow((state) => ({
+      setIdRole: state.setIdRole,
+    })),
+  );
+
   const { mutate, isMutating } = useMutation({
     fetcher: LoginApi,
     options: {
       onSuccess: async (data) => {
         const token = data.token;
         await saveAuthTokenForInternalServer(token);
-        window.location.href = "/";
+        setIdRole(data.idRole);
+        router.push("/");
       },
       onError: (error) => {
         toastError(error.message);
@@ -59,8 +71,8 @@ export default function Page() {
   });
 
   return (
-    <div className="shadow-default border-strokedark bg-boxdark flex h-full w-full items-center justify-center rounded-sm border">
-      <div className="border-strokedark flex flex-wrap items-center border-2">
+    <div className="flex h-full w-full items-center justify-center rounded-sm border border-strokedark bg-boxdark shadow-default">
+      <div className="flex flex-wrap items-center border-2 border-strokedark">
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="px-26 py-17.5 text-center">
             <div className="mb-5.5 flex items-center justify-center gap-[10px] text-[55px]">
@@ -199,9 +211,9 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="border-strokedark w-full xl:w-1/2 xl:border-l-2">
-          <div className="sm:p-12.5 xl:p-17.5 w-full p-4">
-            <h2 className="sm:text-title-xl2 mb-9 text-2xl font-bold text-white">
+        <div className="w-full border-strokedark xl:w-1/2 xl:border-l-2">
+          <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+            <h2 className="mb-9 text-2xl font-bold text-white sm:text-title-xl2">
               Đăng nhập WhiskersAdmin
             </h2>
 

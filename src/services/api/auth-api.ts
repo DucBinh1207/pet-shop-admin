@@ -2,12 +2,15 @@ import { LoginFormType } from "@/types/login-form";
 import { post } from "../axios";
 import { post as postPublic } from "../axios-public";
 import { ResponseAuthType } from "@/types/response-auth";
+import { toCamelCase } from "@/utils/to-camel-case";
 
-export async function LoginApi({ data }: { data: LoginFormType }) {
-  return await postPublic<ResponseAuthType>({
+export async function LoginApi({ data: dataToSend }: { data: LoginFormType }) {
+  const rawData = await postPublic<ResponseAuthType>({
     url: "/auth/login",
-    data,
+    data: dataToSend,
   });
+  const data = toCamelCase<ResponseAuthType>(rawData);
+  return data;
 }
 
 export async function LogOut() {

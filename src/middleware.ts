@@ -5,13 +5,13 @@ import { CookieKey } from "./constants/cookie-key";
 export function middleware(request: NextRequest) {
   const token = request.cookies.get(CookieKey.AUTH_TOKEN_ADMIN);
 
-  // if (request.nextUrl.pathname === "/login") {
-  //   return NextResponse.next();
-  // }
+  if (request.nextUrl.pathname === "/login") {
+    return NextResponse.next();
+  }
 
-  // if (!token) {
-  //   return NextResponse.redirect(new URL("/login", request.url));
-  // }
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   return NextResponse.next();
 }
