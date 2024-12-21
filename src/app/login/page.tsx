@@ -44,7 +44,7 @@ export default function Page() {
 
   const router = useRouter();
 
-  const { setIdRole } = useRole(
+  const {  setIdRole } = useRole(
     useShallow((state) => ({
       setIdRole: state.setIdRole,
     })),
