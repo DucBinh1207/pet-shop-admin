@@ -2,10 +2,6 @@ import { ApexOptions } from "apexcharts";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-interface ChartThreeState {
-  series: number[];
-}
-
 const options: ApexOptions = {
   chart: {
     fontFamily: "Satoshi, sans-serif",
@@ -50,10 +46,10 @@ const options: ApexOptions = {
 };
 
 const ChartThree: React.FC = () => {
-  const series = [50,30,20];
+  const series = [50, 30, 20];
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
+    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default xl:col-span-4 dark:border-strokedark dark:bg-boxdark">
       <div className="mb-3 justify-between gap-4 sm:flex">
         <div>
           <h5 className="text-xl font-semibold text-black dark:text-white">

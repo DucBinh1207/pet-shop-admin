@@ -1,6 +1,6 @@
 import UserDetail from "@/app/user/components/user-detail";
 import useBlockScroll from "@/hooks/use-block-scroll";
-import { USER } from "@/types/user";
+import { UserType } from "@/types/user";
 import { RenderUserStatus } from "@/utils/renderUserStatus";
 import cn from "@/utils/style/cn";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 import AngleDown from "../angle-down";
 
-const users: USER[] = [
+const users: UserType[] = [
   {
     _id: "a1b2c3d4-e5f6-7890-ghij-klmnopqrstuv",
     email: "newuser1@gmail.com",

@@ -1,4 +1,4 @@
-import { LoginFormType } from "@/types/login-form";
+import { LoginFormType } from "@/app/login/page";
 import { post } from "../axios";
 import { post as postPublic } from "../axios-public";
 import { ResponseAuthType } from "@/types/response-auth";

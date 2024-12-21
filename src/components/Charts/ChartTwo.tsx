@@ -58,22 +58,11 @@ const options: ApexOptions = {
     fontFamily: "Satoshi",
     fontWeight: 500,
     fontSize: "14px",
-
-    markers: {
-      radius: 99,
-    },
   },
   fill: {
     opacity: 1,
   },
 };
-
-interface ChartTwoState {
-  series: {
-    name: string;
-    data: number[];
-  }[];
-}
 
 const ChartTwo: React.FC = () => {
   const series = [
@@ -88,7 +77,7 @@ const ChartTwo: React.FC = () => {
   ];
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
+    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default xl:col-span-4 dark:border-strokedark dark:bg-boxdark">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
