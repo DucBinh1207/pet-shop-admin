@@ -1,8 +1,7 @@
 import AddAdmin from "@/app/user/components/add-admin";
 import AdminDetail from "@/app/user/components/admin-detail";
-import UserDetail from "@/app/user/components/user-detail";
 import useBlockScroll from "@/hooks/use-block-scroll";
-import { USER } from "@/types/user";
+import {  UserType } from "@/types/user";
 import { RenderUserStatus } from "@/utils/renderUserStatus";
 import cn from "@/utils/style/cn";
 import Image from "next/image";
@@ -10,7 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 import AngleDown from "../angle-down";
 
-const users: USER[] = [
+const users: UserType[] = [
   {
     _id: "b9f7e6d2-45a6-41e3-ae29-8e6544f290cd",
     email: "user10@gmail.com",

@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
 
     return Response.json({ message: "Success" }, { status: 200 });
   } catch (error) {
+    console.log(error);
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
@@ -51,6 +52,7 @@ export async function GET() {
     }
     return Response.json(token.value);
   } catch (error) {
+    console.log(error);
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
@@ -69,6 +71,7 @@ export async function DELETE() {
       });
     }
   } catch (error) {
+    console.log(error);
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

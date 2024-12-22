@@ -1,3 +1,5 @@
+"use client";
+
 import AddVoucher from "@/app/vouchers/components/add-voucher";
 import VoucherDetail from "@/app/vouchers/components/voucher-detail";
 import useBlockScroll from "@/hooks/use-block-scroll";
@@ -167,7 +169,7 @@ const ReviewsTable = () => {
   useBlockScroll(voucher);
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 dark:border-strokedark dark:bg-boxdark">
       <div className="mb-[20px] flex items-center justify-between">
         <div className="hidden sm:block">
           <form action="https://formbold.com/s/unique_form_id" method="POST">
@@ -220,7 +222,7 @@ const ReviewsTable = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-7 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-7">
+        <div className="grid grid-cols-7 rounded-sm bg-gray-2 sm:grid-cols-7 dark:bg-meta-4">
           <div className="col-span-1 p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Mã người dùng
@@ -262,7 +264,7 @@ const ReviewsTable = () => {
             key={key}
           >
             <Link href="#" className="flex items-center gap-3 p-2.5 xl:p-5">
-              <p className="hidden text-black dark:text-white sm:block">
+              <p className="hidden text-black sm:block dark:text-white">
                 {review.id_user}
               </p>
             </Link>
@@ -276,13 +278,13 @@ const ReviewsTable = () => {
                   height={48}
                 />
               </div>
-              <p className="hidden text-black dark:text-white sm:block">
+              <p className="hidden text-black sm:block dark:text-white">
                 {review.name}
               </p>
             </Link>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-6 ">{review.star}</p>
+              <p className="text-meta-6">{review.star}</p>
             </div>
 
             <div className="col-span-2 hidden items-center justify-center p-2.5 sm:flex xl:p-5">
@@ -298,8 +300,8 @@ const ReviewsTable = () => {
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
               <select
                 className={cn("block w-full rounded-sm p-2.5 text-white", {
-                  "bg-green-700 ": review.status === 0,
-                  "bg-red-700 ": review.status === 1,
+                  "bg-green-700": review.status === 0,
+                  "bg-red-700": review.status === 1,
                 })}
                 defaultValue={review.status}
                 onChange={handleStatusCommentChange}
