@@ -9,6 +9,22 @@ export const apiClient = axios.create({
   timeout: 7000,
 });
 
+apiClient.interceptors.request.use(
+  (config) => {
+    // Log URL của request
+    console.log(`[API Request] URL: ${config.baseURL}${config.url}`);
+    console.log(`[API Request] Method: ${config.method}`);
+    console.log(`[API Request] Params:`, config.params);
+    console.log(`[API Request] Data:`, config.data);
+    return config;
+  },
+  (error) => {
+    console.error(`[API Request Error]`, error);
+    return Promise.reject(error);
+  },
+);
+
+
 apiClient.interceptors.response.use(
   (response) => {
     return response.data;
