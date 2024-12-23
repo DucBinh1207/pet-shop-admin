@@ -10,153 +10,135 @@ import AngleDown from "../angle-down";
 
 const users: UserType[] = [
   {
-    _id: "0537c4ef-3eac-42ab-ab15-dc2a074b20fc",
+    id: "0537c4ef-3eac-42ab-ab15-dc2a074b20fc",
     email: "t@gmail.com",
-    password: "$2b$10$aWEKgQwQ9Cb9aS9HBsn8OeSvkyxbTqgzvrJpmSyguBADcXIFZGlYS",
     id_role: 1,
-    token_created_at: "2024-10-21T15:16:50.336Z",
     status: 1,
     is_verified: true,
     image: "/images/user/client.png",
     name: "Daniel Tam1",
     nationality: "South Korea",
-    telephone_number: "0905178951",
+    telephoneNumber: "0905178951",
     district: "Cầu Giấy1",
     province: "Hà Nội",
     street: "23 Núi Thành1",
     ward: "Hòa Nam1",
   },
   {
-    _id: "6a5d2f71-0b4d-4f6f-9b7d-bac8b83d44db",
+    id: "6a5d2f71-0b4d-4f6f-9b7d-bac8b83d44db",
     email: "user2@gmail.com",
-    password: "$2b$10$AqfddJHaR1ngFhg29DdK7KmFqAho3lDhMkm2Soj7nph6DRXhNf3n2",
     id_role: 2,
-    token_created_at: "2024-11-15T10:25:30.672Z",
     status: 1,
     is_verified: true,
     image: "/images/user/client.png",
     name: "John Doe",
     nationality: "USA",
-    telephone_number: "0912345678",
+    telephoneNumber: "0912345678",
     district: "District 1",
     province: "Ho Chi Minh City",
     street: "123 Le Lai",
     ward: "Ben Thanh",
   },
   {
-    _id: "e4b32f3e-702f-4e1b-bb5e-9b63a89ab4bc",
+    id: "e4b32f3e-702f-4e1b-bb5e-9b63a89ab4bc",
     email: "user3@gmail.com",
-    password: "$2b$10$MgEgsUBq1Uu9MzWtj93p9Tmch8gfS4E0IRBF7oHOnEJ7oh2O8tftq",
     id_role: 3,
-    token_created_at: "2024-10-10T08:14:21.847Z",
     status: 1,
     is_verified: false,
     image: "/images/user/client.png",
     name: "Michael Jordan",
     nationality: "Canada",
-    telephone_number: "0987654321",
+    telephoneNumber: "0987654321",
     district: "Binh Thanh",
     province: "Ho Chi Minh City",
     street: "456 Vo Thi Sau",
     ward: "Phu Nhuan",
   },
   {
-    _id: "c3e87f6d-84be-4e65-a6d6-2e5c1a5f8f7c",
+    id: "c3e87f6d-84be-4e65-a6d6-2e5c1a5f8f7c",
     email: "user4@gmail.com",
-    password: "$2b$10$DZXO5Zux8bNl.33KM5owuOMuYttZ03sTFZBl0gODwmBh6K33ACpCq",
     id_role: 1,
-    token_created_at: "2024-09-05T18:55:43.453Z",
     status: 1,
     is_verified: true,
     image: "/images/user/client.png",
     name: "David Beckham",
     nationality: "England",
-    telephone_number: "0934567890",
+    telephoneNumber: "0934567890",
     district: "Tan Phu",
     province: "Ho Chi Minh City",
     street: "789 Cach Mang Thang Tam",
     ward: "An Phu Dong",
   },
   {
-    _id: "11f94f0f-3541-4326-b91e-08a9b20d799a",
+    id: "11f94f0f-3541-4326-b91e-08a9b20d799a",
     email: "user5@gmail.com",
-    password: "$2b$10$BhXfDxwnolWs8xBHKC8yBYcdzIh3GeTp5wMRpBtdJ.5RmHtBjfP6q",
     id_role: 2,
-    token_created_at: "2024-08-18T12:30:20.219Z",
     status: 1,
     is_verified: false,
     image: "/images/user/client.png",
     name: "Emma Watson",
     nationality: "UK",
-    telephone_number: "0978645309",
+    telephoneNumber: "0978645309",
     district: "Phu Nhuan",
     province: "Ho Chi Minh City",
     street: "102 Nguyen Thi Minh Khai",
     ward: "Ward 6",
   },
   {
-    _id: "a7d92b38-f44a-4e91-bccf-b6a9db736daf",
+    id: "a7d92b38-f44a-4e91-bccf-b6a9db736daf",
     email: "user6@gmail.com",
-    password: "$2b$10$HHZb1AqPj7lZflb2wSKhZ1bbdQwfz9lxUxeHYTInQ3hbh8A4wJ7r2",
     id_role: 3,
-    token_created_at: "2024-11-03T09:22:11.188Z",
     status: 1,
     is_verified: true,
     image: "/images/user/client.png",
     name: "Chris Evans",
     nationality: "USA",
-    telephone_number: "0906765432",
+    telephoneNumber: "0906765432",
     district: "Hanoi",
     province: "Hanoi",
     street: "100 Le Duan",
     ward: "Dong Da",
   },
   {
-    _id: "4d725fd1-330f-4b99-9f38-fb3ffeb12f38",
+    id: "4d725fd1-330f-4b99-9f38-fb3ffeb12f38",
     email: "user7@gmail.com",
-    password: "$2b$10$sdgNAlHsiu.J1SK3rR7rXzVox0jfiYzMyX3sZ91Vztg.xX3l70XcK",
     id_role: 1,
-    token_created_at: "2024-08-22T16:40:50.053Z",
     status: 1,
     is_verified: true,
     image: "/images/user/client.png",
     name: "Steve Rogers",
     nationality: "USA",
-    telephone_number: "0912003004",
+    telephoneNumber: "0912003004",
     district: "Hoan Kiem",
     province: "Hanoi",
     street: "32 Quang Trung",
     ward: "Old Quarter",
   },
   {
-    _id: "d2a5498a-d8f3-478a-9c48-daa31c273542",
+    id: "d2a5498a-d8f3-478a-9c48-daa31c273542",
     email: "user8@gmail.com",
-    password: "$2b$10$vn7sfOShjVqxdnA.ymk5P1BkI.tMnRkC7QO9HszI2U7J0oSPciAAS",
     id_role: 3,
-    token_created_at: "2024-11-20T14:10:15.658Z",
     status: 1,
     is_verified: false,
     image: "/images/user/client.png",
     name: "Scarlett Johansson",
     nationality: "USA",
-    telephone_number: "0982123456",
+    telephoneNumber: "0982123456",
     district: "Thanh Xuan",
     province: "Hanoi",
     street: "55 Dai Loc",
     ward: "Ngoc Khanh",
   },
   {
-    _id: "3c407b39-9c2d-4c24-b46a-16784b75f6f3",
+    id: "3c407b39-9c2d-4c24-b46a-16784b75f6f3",
     email: "user9@gmail.com",
-    password: "$2b$10$Q2u.X0W6y8NhpShldbdlshgxZLWsIEK56poyVZHe9b0o.KjRlR9z.",
     id_role: 2,
-    token_created_at: "2024-12-01T18:00:09.123Z",
     status: 0,
     is_verified: true,
     image: "/images/user/client.png",
     name: "Robert Downey Jr.",
     nationality: "USA",
-    telephone_number: "0923456789",
+    telephoneNumber: "0923456789",
     district: "Cau Giay",
     province: "Hanoi",
     street: "12 Trinh Cong Son",
@@ -170,10 +152,10 @@ const CustomerTable = () => {
   useBlockScroll(user);
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 dark:border-strokedark dark:bg-boxdark">
       <div className="mb-[20px] flex items-center justify-between">
         <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+          <form action="https://formbold.com/s/unique_formid" method="POST">
             <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2">
                 <svg
@@ -210,7 +192,7 @@ const CustomerTable = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-6">
+        <div className="grid grid-cols-3 rounded-sm bg-gray-2 sm:grid-cols-6 dark:bg-meta-4">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">Tên</h5>
           </div>
@@ -248,9 +230,14 @@ const CustomerTable = () => {
           >
             <Link href="#" className="flex items-center gap-3 p-2.5 xl:p-5">
               <div className="h-[48px] w-[48px] flex-shrink-0 overflow-hidden rounded-[50%]">
-                <Image src={user.image} alt="user" width={48} height={48} />
+                <Image
+                  src={user.image ?? "#"}
+                  alt="user"
+                  width={48}
+                  height={48}
+                />
               </div>
-              <p className="hidden text-black dark:text-white sm:block">
+              <p className="hidden text-black sm:block dark:text-white">
                 {user.name}
               </p>
             </Link>
@@ -260,7 +247,7 @@ const CustomerTable = () => {
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">+{user.telephone_number}</p>
+              <p className="text-meta-3">+{user.telephoneNumber}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">

@@ -4,7 +4,6 @@ import AddVoucher from "@/app/vouchers/components/add-voucher";
 import VoucherDetail from "@/app/vouchers/components/voucher-detail";
 import useBlockScroll from "@/hooks/use-block-scroll";
 import { REVIEW } from "@/types/reviews";
-import { VOUCHER } from "@/types/voucher";
 import convertDate from "@/utils/convert-date";
 import cn from "@/utils/style/cn";
 import Image from "next/image";

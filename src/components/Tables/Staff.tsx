@@ -10,85 +10,75 @@ import AngleDown from "../angle-down";
 
 const users: UserType[] = [
   {
-    _id: "a1b2c3d4-e5f6-7890-ghij-klmnopqrstuv",
+    id: "a1b2c3d4-e5f6-7890-ghij-klmnopqrstuv",
     email: "newuser1@gmail.com",
-    password: "$2b$10$XWErO8Kby3eF9qz8wVxLv.OhZ65F6Yg8hLDJPNiNxfhUJhgKXh/2W",
     id_role: 1,
-    token_created_at: "2024-12-05T10:15:30.500Z",
     status: 1,
     is_verified: true,
     image: "/images/product/border-colie.png",
     name: "Tony Stark",
     nationality: "USA",
-    telephone_number: "0911223344",
+    telephoneNumber: "0911223344",
     district: "Hai Ba Trung",
     province: "Hanoi",
     street: "78 Nguyen Trai",
     ward: "Trung Hoa",
   },
   {
-    _id: "b1c2d3e4-f5g6-7890-hijk-lmnopqrstuvw",
+    id: "b1c2d3e4-f5g6-7890-hijk-lmnopqrstuvw",
     email: "newuser2@gmail.com",
-    password: "$2b$10$UVErP1Ocby7tF9vy9WxLv.PjY72H5Yk7zADJNQiLxfhUJ9gHXh/3X",
     id_role: 2,
-    token_created_at: "2024-12-06T09:25:40.300Z",
     status: 0,
     is_verified: false,
     image: "/images/product/border-colie.png",
     name: "Natasha Romanoff",
     nationality: "Russia",
-    telephone_number: "0923344556",
+    telephoneNumber: "0923344556",
     district: "Ba Dinh",
     province: "Hanoi",
     street: "90 Hoang Hoa Tham",
     ward: "Ngoc Ha",
   },
   {
-    _id: "c1d2e3f4-g5h6-7890-ijkl-mnopqrstvwxy",
+    id: "c1d2e3f4-g5h6-7890-ijkl-mnopqrstvwxy",
     email: "newuser3@gmail.com",
-    password: "$2b$10$YWErU9Lcby8zF8xz8WxLv.LhZ63F8Xg8vMDKNMiNxfhUJ8gHXh/4Y",
     id_role: 3,
-    token_created_at: "2024-12-07T14:30:25.400Z",
     status: 1,
     is_verified: true,
     image: "/images/product/border-colie.png",
     name: "Bruce Wayne",
     nationality: "USA",
-    telephone_number: "0934455667",
+    telephoneNumber: "0934455667",
     district: "Dong Da",
     province: "Hanoi",
     street: "15 Tran Quoc Toan",
     ward: "Cat Linh",
   },
   {
-    _id: "d1e2f3g4-h5i6-7890-jklm-nopqrstvwxyz",
+    id: "d1e2f3g4-h5i6-7890-jklm-nopqrstvwxyz",
     email: "newuser4@gmail.com",
-    password: "$2b$10$ZWErR8Jcby9uF7wy7WxLv.KhY60G9Yg9wODKNMiLxfhUJ7gGXh/5Z",
     id_role: 1,
-    token_created_at: "2024-12-08T11:45:50.200Z",
     status: 0,
     is_verified: false,
     image: "/images/product/border-colie.png",
     name: "Clark Kent",
     nationality: "USA",
-    telephone_number: "0945566778",
+    telephoneNumber: "0945566778",
     district: "Thanh Xuan",
     province: "Hanoi",
     street: "102 Khuat Duy Tien",
     ward: "Thanh Xuan Bac",
   },
   {
-    _id: "e1f2g3h4-i5j6-7890-klmn-opqrstvwxyz",
+    id: "e1f2g3h4-i5j6-7890-klmn-opqrstvwxyz",
     email: "newuser5@gmail.com",
-    password: "$2b$10$XVEqT7Kcby0wF6xy6WxLv.HiX57H6Yg6yADKNMiKxfhUJ6gHXh/6X",
     id_role: 2,
-    token_created_at: "2024-12-09T16:50:35.100Z",
     status: 1,
     is_verified: true,
     image: "/images/product/border-colie.png",
     name: "Diana Prince",
     nationality: "Greece",
-    telephone_number: "0956677889",
+    telephoneNumber: "0956677889",
     district: "Hoan Kiem",
     province: "Hanoi",
     street: "45 Hang Bai",
@@ -102,10 +92,10 @@ const StaffTable = () => {
   useBlockScroll(user);
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 dark:border-strokedark dark:bg-boxdark">
       <div className="mb-[20px] flex items-center justify-between">
         <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+          <form action="https://formbold.com/s/unique_formid" method="POST">
             <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2">
                 <svg
@@ -147,7 +137,7 @@ const StaffTable = () => {
         </button>
       </div>
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-6">
+        <div className="grid grid-cols-3 rounded-sm bg-gray-2 sm:grid-cols-6 dark:bg-meta-4">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">Tên</h5>
           </div>
@@ -185,9 +175,14 @@ const StaffTable = () => {
           >
             <Link href="#" className="flex items-center gap-3 p-2.5 xl:p-5">
               <div className="h-[48px] w-[48px] flex-shrink-0 overflow-hidden rounded-[50%]">
-                <Image src={user.image} alt="user" width={48} height={48} />
+                <Image
+                  src={user.image ?? "#"}
+                  alt="user"
+                  width={48}
+                  height={48}
+                />
               </div>
-              <p className="hidden text-black dark:text-white sm:block">
+              <p className="hidden text-black sm:block dark:text-white">
                 {user.name}
               </p>
             </Link>
@@ -197,7 +192,7 @@ const StaffTable = () => {
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">+{user.telephone_number}</p>
+              <p className="text-meta-3">+{user.telephoneNumber}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
