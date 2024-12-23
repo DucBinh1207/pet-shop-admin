@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import ChartOne from "../Charts/ChartOne";
 import TopProducts from "../Tables/TopProducts";

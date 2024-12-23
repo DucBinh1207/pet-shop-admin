@@ -4,7 +4,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import AdminTable from "@/components/Tables/Admin";
 
-const TablesPage = () => {
+const Page = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Quản lý" />
@@ -16,4 +16,4 @@ const TablesPage = () => {
   );
 };
 
-export default TablesPage;
+export default Page;

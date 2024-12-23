@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import TableOne from "@/components/Tables/TableOne";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
-
-const TablesPage = () => {
+const Page = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Thú cưng" />
@@ -17,4 +16,4 @@ const TablesPage = () => {
   );
 };
 
-export default TablesPage;
+export default Page;

@@ -4,7 +4,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import VoucherTable from "@/components/Tables/Vouchers";
 
-const TablesPage = () => {
+const Page = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Phiếu giảm giá" />
@@ -16,4 +16,4 @@ const TablesPage = () => {
   );
 };
 
-export default TablesPage;
+export default Page;

@@ -1,9 +1,15 @@
+"use client";
+
 import useSoldProducts from "@/hooks/dashboard/use-sold-products";
 import { DayType } from "@/types/day";
 import { ApexOptions } from "apexcharts";
 import React from "react";
-import ReactApexChart from "react-apexcharts";
 import PieChartSkeleton from "./pie-chart-skeleton";
+import dynamic from "next/dynamic";
+
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 const options: ApexOptions = {
   chart: {

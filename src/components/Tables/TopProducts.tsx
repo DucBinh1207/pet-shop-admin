@@ -1,3 +1,5 @@
+"use client";
+
 import useTopProducts from "@/hooks/dashboard/use-top-products";
 import { DayType } from "@/types/day";
 import Image from "next/image";
