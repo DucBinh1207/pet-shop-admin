@@ -18,7 +18,6 @@ interface ButtonProps
 const buttonVariants = cva("cursor-pointer border transition", {
   variants: {
     size: {
-
       sm: "",
 
       md: "p-4 rounded-lg w-full",
@@ -29,10 +28,9 @@ const buttonVariants = cva("cursor-pointer border transition", {
       primary: "border-primary bg-primary text-white hover:bg-opacity-90",
 
       secondary:
-        "",
+        " ",
 
-      tertiary:
-        "",
+      tertiary: "",
     },
   },
 

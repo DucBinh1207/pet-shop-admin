@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
+
+  
   return (
     <>
       <DefaultLayout>

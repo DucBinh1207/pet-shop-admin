@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const AddAdmin = () => {
   return (
     <div className="small-screen:h-0 small-screen:pb-[56.25%] fixed left-[50%] top-[50%] z-[110] h-[90vh] w-[90vw] translate-x-[-50%] translate-y-[-50%] p-[50px]">
@@ -201,7 +199,7 @@ const AddAdmin = () => {
               <form action="#">
                 <div
                   id="FileUpload"
-                  className="relative mb-5.5 block h-[240px] w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray px-4 py-4 dark:bg-meta-4 sm:py-7.5"
+                  className="relative mb-5.5 block h-[240px] w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray px-4 py-4 sm:py-7.5 dark:bg-meta-4"
                 >
                   <input
                     type="file"

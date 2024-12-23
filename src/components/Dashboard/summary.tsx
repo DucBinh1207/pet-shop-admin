@@ -1,4 +1,4 @@
-import useSummary from "@/hooks/dashboard/useSummary";
+import useSummary from "@/hooks/dashboard/use-summary";
 import CardDataStats from "../CardDataStats";
 import { priceRender } from "@/utils/priceRender";
 import SummarySkeleton from "./summary-skeleton";
