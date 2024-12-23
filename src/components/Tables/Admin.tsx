@@ -1,7 +1,7 @@
 import AddAdmin from "@/app/user/components/add-admin";
 import AdminDetail from "@/app/user/components/admin-detail";
 import useBlockScroll from "@/hooks/use-block-scroll";
-import {  UserType } from "@/types/user";
+import { UserType } from "@/types/user";
 import { RenderUserStatus } from "@/utils/renderUserStatus";
 import cn from "@/utils/style/cn";
 import Image from "next/image";
@@ -11,51 +11,45 @@ import AngleDown from "../angle-down";
 
 const users: UserType[] = [
   {
-    _id: "b9f7e6d2-45a6-41e3-ae29-8e6544f290cd",
+    id: "b9f7e6d2-45a6-41e3-ae29-8e6544f290cd",
     email: "user10@gmail.com",
-    password: "$2b$10$12345aBCD54321xYZ9aBcXOPfF23AfG9yK7T68b1234510kLoPi",
     id_role: 2,
-    token_created_at: "2024-12-10T12:30:45.000Z",
     status: 1,
     is_verified: false,
     image: "/images/user/admin.jpg",
     name: "Tony Stark",
     nationality: "USA",
-    telephone_number: "0901122334",
+    telephoneNumber: "0901122334",
     district: "Hai Ba Trung",
     province: "Hanoi",
     street: "76 Ly Thuong Kiet",
     ward: "Dong Nhan",
   },
   {
-    _id: "c7d8fbc9-87a3-4e9d-b123-fb4d5643ad67",
+    id: "c7d8fbc9-87a3-4e9d-b123-fb4d5643ad67",
     email: "user11@gmail.com",
-    password: "$2b$10$T4567abcdxYZ9012LMNbcOpQfGhIjk90lmN78Ab12345kLyZaOp",
     id_role: 2,
-    token_created_at: "2024-12-12T08:15:30.000Z",
     status: 1,
     is_verified: true,
     image: "/images/user/admin.jpg",
     name: "Natasha Romanoff",
     nationality: "Russia",
-    telephone_number: "0987650987",
+    telephoneNumber: "0987650987",
     district: "Thanh Xuan",
     province: "Hanoi",
     street: "21 Nguyen Trai",
     ward: "Khuong Dinh",
   },
   {
-    _id: "f4e3d6a7-12b8-4e3f-b123-67890a4c5e3f",
+    id: "f4e3d6a7-12b8-4e3f-b123-67890a4c5e3f",
     email: "user12@gmail.com",
-    password: "$2b$10$AaBb1234XyzOpLm56NopQWEfG789IJkl123456XyzZaQWERT",
     id_role: 2,
-    token_created_at: "2024-12-15T18:45:20.000Z",
     status: 1,
     is_verified: true,
     image: "/images/user/admin.jpg",
     name: "Bruce Wayne",
     nationality: "USA",
-    telephone_number: "0912349876",
+    telephoneNumber: "0912349876",
     district: "Hoan Kiem",
     province: "Hanoi",
     street: "10 Bat Dan",
@@ -70,10 +64,10 @@ const AdminTable = () => {
   useBlockScroll(user);
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 dark:border-strokedark dark:bg-boxdark">
       <div className="mb-[20px] flex items-center justify-between">
         <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+          <form action="https://formbold.com/s/unique_formid" method="POST">
             <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2">
                 <svg
@@ -119,7 +113,7 @@ const AdminTable = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-6">
+        <div className="grid grid-cols-3 rounded-sm bg-gray-2 sm:grid-cols-6 dark:bg-meta-4">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">Tên</h5>
           </div>
@@ -157,9 +151,14 @@ const AdminTable = () => {
           >
             <Link href="#" className="flex items-center gap-3 p-2.5 xl:p-5">
               <div className="h-[48px] w-[48px] flex-shrink-0 overflow-hidden rounded-[50%]">
-                <Image src={user.image} alt="user" width={48} height={48} />
+                <Image
+                  src={user.image ?? "#"}
+                  alt="user"
+                  width={48}
+                  height={48}
+                />
               </div>
-              <p className="hidden text-black dark:text-white sm:block">
+              <p className="hidden text-black sm:block dark:text-white">
                 {user.name}
               </p>
             </Link>
@@ -169,7 +168,7 @@ const AdminTable = () => {
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">+{user.telephone_number}</p>
+              <p className="text-meta-3">+{user.telephoneNumber}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">

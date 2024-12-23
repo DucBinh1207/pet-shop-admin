@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import OrderTable from "@/components/Tables/OrderTable";
-
 
 const Page = () => {
   return (
@@ -13,7 +12,7 @@ const Page = () => {
         <OrderTable />
       </div>
     </>
-  ); 
+  );
 };
 
 export default Page;

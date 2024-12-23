@@ -1,17 +1,19 @@
 export type UserType = {
-  _id: string;
+  id: string;
   email: string;
-  password: string;
   id_role: number;
-  token_created_at: string;
   status: number;
   is_verified: boolean;
-  image: string;
-  name: string;
-  nationality: string;
-  telephone_number: string;
-  district: string;
-  province: string;
-  street: string;
-  ward: string;
+  image?: string;
+  name?: string;
+  nationality?: string;
+  telephoneNumber?: string;
+  district?: string;
+  province?: string;
+  street?: string;
+  ward?: string;
+};
+
+export type ResponseGetUsersApi = {
+  users: UserType[];
 };

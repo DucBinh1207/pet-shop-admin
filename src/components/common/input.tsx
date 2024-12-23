@@ -31,7 +31,8 @@ const inputVariants = cva(" border", {
     },
     variant: {
       primary: "border-form-strokedark bg-form-input text-white outline-none",
-      secondary: "",
+      secondary:
+        "bg-meta-4 border-strokedark text-white focus:border-primary focus-visible:outline-none",
       third: "",
     },
   },

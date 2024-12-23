@@ -9,7 +9,7 @@ import useMutation from "@/hooks/use-mutation";
 import { saveAuthTokenForInternalServer } from "@/services/api/internal-auth-api";
 import { toastError } from "@/utils/toast";
 import { LoginApi } from "@/services/api/auth-api";
-import FormInput from "@/components/form-input";
+import LoginInput from "@/app/login/components/login-input";
 import Button from "@/components/common/button";
 import cn from "@/utils/style/cn";
 import useRole from "@/store/useRole";
@@ -44,7 +44,7 @@ export default function Page() {
 
   const router = useRouter();
 
-  const {  setIdRole } = useRole(
+  const { setIdRole } = useRole(
     useShallow((state) => ({
       setIdRole: state.setIdRole,
     })),
@@ -54,10 +54,15 @@ export default function Page() {
     fetcher: LoginApi,
     options: {
       onSuccess: async (data) => {
-        const token = data.token;
-        await saveAuthTokenForInternalServer(token);
-        setIdRole(data.idRole);
-        router.push("/");
+        const role = data.idRole;
+        if (role === 2 || role === 3) {
+          const token = data.token;
+          await saveAuthTokenForInternalServer(token);
+          setIdRole(data.idRole);
+          router.push("/");
+        } else {
+          toastError("Bạn không được phép truy cập");
+        }
       },
       onError: (error) => {
         toastError(error.message);
@@ -223,12 +228,7 @@ export default function Page() {
                   Email
                 </label>
                 <div className="relative">
-                  {/* <input
-                    type="email"
-                    placeholder="example@gmail.com"
-                    className="border-form-strokedark bg-form-input focus:border-primary w-full rounded-lg border py-4 pl-6 pr-10 text-white outline-none focus-visible:shadow-none"
-                  /> */}
-                  <FormInput
+                  <LoginInput
                     id="email"
                     type="email"
                     inputSize="large"
@@ -245,7 +245,7 @@ export default function Page() {
                   Mật khẩu
                 </label>
                 <div className="relative">
-                  <FormInput
+                  <LoginInput
                     id="password"
                     type="password"
                     inputSize="large"
