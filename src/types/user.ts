@@ -1,9 +1,9 @@
 export type UserType = {
   id: string;
   email: string;
-  id_role: number;
+  idRole: number;
   status: number;
-  is_verified: boolean;
+  isVerified: boolean;
   image?: string;
   name?: string;
   nationality?: string;
@@ -16,4 +16,5 @@ export type UserType = {
 
 export type ResponseGetUsersApi = {
   users: UserType[];
+  totalPages: number;
 };

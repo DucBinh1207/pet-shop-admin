@@ -4,7 +4,7 @@ import useTopProducts from "@/hooks/dashboard/use-top-products";
 import { DayType } from "@/types/day";
 import Image from "next/image";
 import Link from "next/link";
-import TopProductsSkeleton from "./top-products-skeleton";
+import TableSkeleton from "./table-skeleton";
 import { renderProductType } from "@/utils/render-product-type";
 
 type props = {
@@ -21,7 +21,7 @@ const TopProducts = ({ startDate, endDate }: props) => {
   if (isError) window.location.href = "/error";
 
   if (isLoading) {
-    return <TopProductsSkeleton />;
+    return <TableSkeleton />;
   }
 
   if (topProductsData)

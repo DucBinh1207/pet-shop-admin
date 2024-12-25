@@ -6,7 +6,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useMutation from "@/hooks/use-mutation";
-import { saveAuthTokenForInternalServer } from "@/services/api/internal-auth-api";
+import {
+  saveAuthTokenForInternalServer,
+  saveUserRoleForInternalServer,
+} from "@/services/api/internal-auth-api";
 import { toastError } from "@/utils/toast";
 import { LoginApi } from "@/services/api/auth-api";
 import LoginInput from "@/app/login/components/login-input";
@@ -15,6 +18,7 @@ import cn from "@/utils/style/cn";
 import useRole from "@/store/useRole";
 import { useShallow } from "zustand/shallow";
 import { useRouter } from "next/navigation";
+import { getRemainingTimeFromToken } from "@/utils/get-remaining-time-from-token";
 
 const schema = z.object({
   email: z.string().email("Invalid email format"),
@@ -58,6 +62,8 @@ export default function Page() {
         if (role === 2 || role === 3) {
           const token = data.token;
           await saveAuthTokenForInternalServer(token);
+          const time = getRemainingTimeFromToken(token);
+          await saveUserRoleForInternalServer({ role, time });
           setIdRole(data.idRole);
           router.push("/");
         } else {

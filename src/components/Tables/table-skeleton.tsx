@@ -1,4 +1,4 @@
-export default function TopProductsSkeleton() {
+export default function TableSkeleton() {
   return (
     <div className="col-span-12">
       <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 dark:border-strokedark dark:bg-boxdark">

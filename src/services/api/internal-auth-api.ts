@@ -20,3 +20,30 @@ export async function deleteAuthTokenFromInternalServer() {
     console.log(error);
   }
 }
+
+export async function saveUserRoleForInternalServer({
+  role,
+  time,
+}: {
+  role: number;
+  time: number;
+}) {
+  await axios.post("/api/auth/role", { role, time });
+}
+
+export async function getUserRoleFromInternalServer() {
+  try {
+    const role = await axios.get("/api/auth/role");
+    return role.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteUserRoleFromInternalServer() {
+  try {
+    await axios.delete("/api/auth/role");
+  } catch (error) {
+    console.log(error);
+  }
+}

@@ -6,6 +6,9 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get(CookieKey.AUTH_TOKEN_ADMIN);
 
   if (request.nextUrl.pathname === "/login") {
+    if (token) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
     return NextResponse.next();
   }
 

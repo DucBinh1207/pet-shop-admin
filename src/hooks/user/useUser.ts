@@ -1,9 +1,9 @@
-import { getRevenue } from "@/services/api/dashboard-api";
-import useSWR from "swr";
+import { getUser } from "@/services/api/user-api";
+import useSWR, { mutate } from "swr";
 
 type props = {
   search: string;
-  page: number;
+  paging: number;
   limit?: number;
   idRole: 1 | 2 | 3;
   status: 1 | 2;
@@ -11,7 +11,7 @@ type props = {
 
 export default function useUser({
   search = "",
-  page,
+  paging,
   limit = 10,
   idRole,
   status = 1,
@@ -19,19 +19,24 @@ export default function useUser({
   const params = new URLSearchParams();
 
   params.append("search", search);
-  params.append("page", page.toString());
+  params.append("page", paging.toString());
   params.append("limit", limit.toString());
   params.append("id_role", idRole.toString());
   params.append("status", status.toString());
 
   const { data, error, isLoading } = useSWR(
     "/admin/users/get?" + params.toString(),
-    getRevenue,
+    getUser,
   );
+  const refreshData = () => {
+    mutate("/admin/users/get?" + params.toString(), null, { revalidate: true });
+  };
 
   return {
-    revenueData: data,
+    users: data?.users,
+    totalPages: data?.totalPages,
     isLoading,
     isError: error,
+    refresh: refreshData,
   };
 }

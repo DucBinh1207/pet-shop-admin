@@ -1,24 +1,22 @@
-import { CookieKey } from "@/constants/cookie-key";
-import { getRemainingTimeFromToken } from "@/utils/get-remaining-time-from-token";
+import { RoleKey } from "@/constants/role-key";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { token } = await req.json();
-    if (!token) {
+    const { role, time } = await req.json();
+
+    if (!role || !time) {
       return Response.json({ message: "Failed" }, { status: 401 });
     }
 
-    const remainingTime = getRemainingTimeFromToken(token);
-
     cookies().set({
-      name: CookieKey.AUTH_TOKEN_ADMIN,
-      value: token,
+      name: RoleKey.USER_ROLE,
+      value: role,
       httpOnly: true,
       sameSite: "lax",
       path: "/",
-      maxAge: remainingTime,
+      maxAge: time,
     });
 
     return Response.json({ message: "Success" }, { status: 200 });
@@ -31,14 +29,14 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     const cookieStore = cookies();
-    const token = cookieStore.get(CookieKey.AUTH_TOKEN_ADMIN);
+    const role = cookieStore.get(RoleKey.USER_ROLE);
 
-    if (!token) {
-      return new Response("No token found", {
+    if (!role) {
+      return new Response("No user role found", {
         status: 400,
       });
     }
-    return Response.json(token.value);
+    return Response.json(role.value);
   } catch (error) {
     console.log(error);
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
@@ -48,13 +46,13 @@ export async function GET() {
 export async function DELETE() {
   try {
     const cookieStore = cookies();
-    const token = cookieStore.get(CookieKey.AUTH_TOKEN_ADMIN);
+    const role = cookieStore.get(RoleKey.USER_ROLE);
 
-    if (token) {
-      cookies().delete(CookieKey.AUTH_TOKEN_ADMIN);
+    if (role) {
+      cookies().delete(RoleKey.USER_ROLE);
       return Response.json({ message: "Success" }, { status: 200 });
     } else {
-      return new Response("No token found", {
+      return new Response("No role found", {
         status: 400,
       });
     }
