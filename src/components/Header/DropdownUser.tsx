@@ -6,7 +6,10 @@ import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
 import useMutation from "@/hooks/use-mutation";
 import { LogOut } from "@/services/api/auth-api";
-import { deleteAuthTokenFromInternalServer } from "@/services/api/internal-auth-api";
+import {
+  deleteAuthTokenFromInternalServer,
+  deleteUserRoleFromInternalServer,
+} from "@/services/api/internal-auth-api";
 import { toastError } from "@/utils/toast";
 import useRole from "@/store/useRole";
 import { useShallow } from "zustand/shallow";
@@ -26,6 +29,7 @@ const DropdownUser = () => {
     options: {
       onSuccess: async () => {
         await deleteAuthTokenFromInternalServer();
+        await deleteUserRoleFromInternalServer();
         window.location.href = "/login";
       },
       onError: (error) => {
