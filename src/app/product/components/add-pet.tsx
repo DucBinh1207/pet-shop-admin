@@ -1,47 +1,225 @@
+import useBlockScroll from "@/hooks/use-block-scroll";
 import Image from "next/image";
-import { Metadata } from "next";
+import cn from "@/utils/style/cn";
+import FormInput from "@/components/form-input";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ChangeEvent, useRef, useState } from "react";
+import {
+  PetsCategoryType,
+  PetsCategoryTypes,
+} from "@/constants/pets-category-type.ts";
+import {
+  BreedOrigin,
+  BreedOriginLabel,
+  BreedOriginType,
+} from "../shared/constant/breed-origin";
+import {
+  PetGender,
+  PetGenderLabel,
+  PetGenderTypes,
+} from "../shared/constant/pet-gender";
+import { toastError, toastSuccess } from "@/utils/toast";
+import useMutation from "@/hooks/use-mutation";
+import { createProduct } from "@/services/api/products-api";
 
-const AddPet = () => {
+const schema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().min(1, "Description is required"),
+  price: z.string().min(1, "Province is required"),
+  health: z.string().min(1, "District is required"),
+  father: z.string().min(1, "District is required"),
+  mother: z.string().min(1, "District is required"),
+  deworming: z.string().min(1, "District is required"),
+  vaccine: z.string().min(1, "District is required"),
+  breed: z.string().min(1, "District is required"),
+  trait: z.string().min(1, "District is required"),
+  quantity: z.string().min(1, "District is required"),
+});
+
+type AddPetFormType = z.infer<typeof schema>;
+
+type props = {
+  handleCloseAddPet: () => void;
+  refresh: () => void;
+};
+
+const AddPet = ({ handleCloseAddPet, refresh }: props) => {
+  useBlockScroll(true);
+
+  const [file, setFile] = useState<File | null>(null);
+  const [productImage, setProductImage] = useState(
+    "/images/product/border-colie.png",
+  );
+
+  const productImageInputRef = useRef<HTMLInputElement>(null);
+
+  const [birthday, setBirthday] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+
+  const [category, setCategory] = useState<PetsCategoryTypes>(
+    PetsCategoryType.DOG,
+  );
+
+  const [breedOrigin, setBreedOrigin] = useState<BreedOriginType>(
+    BreedOrigin.PUREBRED,
+  );
+
+  const [petGender, setPetGender] = useState<PetGenderTypes>(PetGender.MALE);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AddPetFormType>({
+    defaultValues: {
+      name: "",
+      description: "",
+      price: "",
+      health: "",
+      father: "",
+      mother: "",
+      deworming: "",
+      vaccine: "",
+      breed: "",
+      trait: "",
+      quantity: "",
+    },
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
+  });
+
+  function handleChangeDateOfBirth(e: ChangeEvent<HTMLInputElement>) {
+    const dateInput = e.target.value;
+    const date = new Date(dateInput);
+    setBirthday(dateInput);
+    setDateOfBirth(date.toISOString().replace(".000", ""));
+  }
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value as PetsCategoryTypes);
+  };
+
+  const handleBreedOriginChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setBreedOrigin(Number(e.target.value) as BreedOriginType);
+  };
+
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPetGender(Number(e.target.value) as PetGenderTypes);
+  };
+
+  function onChangeImage() {
+    if (productImageInputRef && productImageInputRef.current) {
+      productImageInputRef.current.click();
+    }
+  }
+
+  function handleChangeImage(e: ChangeEvent<HTMLInputElement>) {
+    try {
+      const file = e.target.files?.[0];
+      if (file) {
+        if (!file.type.startsWith("image/")) {
+          toastError("Vui lòng chọn một tệp hình ảnh.");
+          return;
+        }
+        setFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setProductImage(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const { mutate } = useMutation({
+    fetcher: createProduct,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã thêm sản phẩm ");
+        refresh();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  const onSubmit = handleSubmit((data: AddPetFormType) => {
+    if (dateOfBirth) {
+      const product = new FormData();
+      product.append("nameTag", "pets");
+      product.append("name", data.name);
+      product.append("description", data.description);
+      product.append("price", data.price);
+      product.append("gender", petGender === PetGender.MALE ? "true" : "false");
+      product.append("health", data.health);
+      product.append("father", data.father);
+      product.append("mother", data.mother);
+      product.append("type", category);
+      product.append("deworming", data.deworming);
+      product.append("vaccine", data.vaccine);
+      product.append(
+        "breed_origin",
+        breedOrigin === BreedOrigin.PUREBRED ? "true" : "false",
+      );
+      product.append("breed", data.breed);
+      product.append("trait", data.trait);
+      product.append("date_of_birth", dateOfBirth);
+      product.append("quantity", data.quantity);
+      product.append("image", file ?? "");
+
+      mutate({ data: product });
+    } else toastError("Nhập ngày sinh");
+  });
+
   return (
     <div className="small-screen:h-0 small-screen:pb-[56.25%] fixed left-[50%] top-[50%] z-[110] h-[90vh] w-[90vw] translate-x-[-50%] translate-y-[-50%] p-[50px]">
-      <div className="grid h-full grid-cols-5 gap-8 overflow-hidden">
+      <form
+        onSubmit={onSubmit}
+        className="grid h-full grid-cols-5 gap-8 overflow-hidden"
+      >
         <div className="xl:col-span-13 h-ful col-span-4 overflow-y-scroll">
-          <div className=" rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="flex items-center justify-between border-b border-stroke px-7 py-4 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
                 Thêm thú cưng
               </h3>
               <div className="flex justify-end gap-4.5">
                 <button
-                  className="flex justify-center rounded border border-stroke bg-blue-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                  type="submit"
-                >
-                  Thoát
-                </button>
-                <button
                   className="flex justify-center rounded border border-stroke bg-green-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
                   type="submit"
                 >
-                  Xác nhận
+                  Thêm thú cưng
+                </button>
+
+                <button
+                  className="flex justify-center rounded border border-stroke bg-blue-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleCloseAddPet();
+                  }}
+                >
+                  Thoát
                 </button>
               </div>
             </div>
             <div className="p-7">
-              <form action="#">
+              <div>
                 <div className="mb-5.5">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="Username"
-                  >
-                    Tên sản phẩm
-                  </label>
-                  <input
-                    className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  <FormInput
+                    label="Tên sản phẩm"
+                    id="name"
                     type="text"
-                    name="Username"
-                    id="Username"
+                    variant="secondary"
+                    className="w-full"
                     placeholder="Nhập tên sản phẩm"
-                    defaultValue=""
+                    {...register("name")}
+                    error={errors.name?.message}
                   />
                 </div>
 
@@ -54,13 +232,17 @@ const AddPet = () => {
                   </label>
                   <div className="relative">
                     <textarea
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3  text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      name="bio"
+                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                       id="bio"
                       rows={6}
                       placeholder="Nhập mô tả"
-                      defaultValue=""
+                      {...register("description")}
                     ></textarea>
+                    {errors.description?.message && (
+                      <span className="ml-[5px] mt-[5px] text-[13px] leading-[18px] text-red-500">
+                        {errors.description?.message}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -72,30 +254,31 @@ const AddPet = () => {
                     >
                       Loại thú cưng
                     </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Có"
-                      defaultValue="Chó"
-                    />
+                    <select
+                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      value={category}
+                      onChange={handleCategoryChange}
+                    >
+                      {Object.entries(PetsCategoryType).map(
+                        ([, categoryType]) => (
+                          <option key={categoryType} value={categoryType}>
+                            {categoryType}
+                          </option>
+                        ),
+                      )}
+                    </select>
                   </div>
 
                   <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="phoneNumber"
-                    >
-                      Giống
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    <FormInput
+                      label="Giống"
+                      id="name"
                       type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Nhập giống chó"
-                      defaultValue=""
+                      variant="secondary"
+                      className="w-full"
+                      placeholder="Nhập giống thú cưng"
+                      {...register("breed")}
+                      error={errors.breed?.message}
                     />
                   </div>
                 </div>
@@ -112,104 +295,81 @@ const AddPet = () => {
                       <span className="absolute left-4.5 top-4"></span>
                       <input
                         className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="text"
+                        type="date"
                         name="fullName"
                         id="fullName"
-                        placeholder="Nhập ngày sinh"
-                        defaultValue=""
+                        value={birthday}
+                        onChange={handleChangeDateOfBirth}
                       />
                     </div>
                   </div>
 
                   <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="phoneNumber"
-                    >
-                      Tính cách
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    <FormInput
+                      label="Tính cách"
+                      id="name"
                       type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
+                      variant="secondary"
+                      className="w-full"
                       placeholder="Nhập tính cách"
-                      defaultValue=""
+                      {...register("trait")}
+                      error={errors.trait?.message}
                     />
                   </div>
                 </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                   <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="fullName"
-                    >
-                      Tiêm phòng
-                    </label>
-                    <div className="relative">
-                      <span className="absolute left-4.5 top-4"></span>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="text"
-                        name="fullName"
-                        id="fullName"
-                        placeholder="Nhập tiêm phòng"
-                        defaultValue=""
-                      />
-                    </div>
+                    <FormInput
+                      label="Tiêm phòng"
+                      id="name"
+                      type="text"
+                      variant="secondary"
+                      className="w-full"
+                      placeholder="Nhập tiêm phòng"
+                      {...register("vaccine")}
+                      error={errors.vaccine?.message}
+                    />
                   </div>
 
                   <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="phoneNumber"
-                    >
-                      Xổ giun
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    <FormInput
+                      label="Xổ giun"
+                      id="name"
                       type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
+                      variant="secondary"
+                      className="w-full"
                       placeholder="Nhập xổ giun"
-                      defaultValue=""
+                      {...register("deworming")}
+                      error={errors.deworming?.message}
                     />
                   </div>
                 </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                   <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="phoneNumber"
-                    >
-                      Bố
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    <FormInput
+                      label="Bố"
+                      id="name"
                       type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Có"
-                      defaultValue="Nhập bố thú cưng"
+                      variant="secondary"
+                      className="w-full"
+                      placeholder="Nhập bố"
+                      {...register("father")}
+                      error={errors.father?.message}
                     />
                   </div>
 
                   <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="phoneNumber"
-                    >
-                      Mẹ
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    <FormInput
+                      label="Mẹ"
+                      id="name"
                       type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Hoạt động"
-                      defaultValue="Nhập mẹ thú cưng"
+                      variant="secondary"
+                      className="w-full"
+                      placeholder="Nhập mẹ"
+                      {...register("mother")}
+                      error={errors.mother?.message}
                     />
                   </div>
                 </div>
@@ -222,14 +382,17 @@ const AddPet = () => {
                     >
                       Thuần chủng
                     </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Có"
-                      defaultValue="Nhập bố thú cưng"
-                    />
+                    <select
+                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      value={breedOrigin}
+                      onChange={handleBreedOriginChange}
+                    >
+                      {Object.entries(BreedOrigin).map(([, origin]) => (
+                        <option key={origin} value={origin}>
+                          {BreedOriginLabel[origin]}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="w-full sm:w-1/2">
@@ -239,53 +402,63 @@ const AddPet = () => {
                     >
                       Giới tính
                     </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    <select
+                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      value={petGender}
+                      onChange={handleGenderChange}
+                    >
+                      {Object.entries(PetGender).map(([, gender]) => (
+                        <option key={gender} value={gender}>
+                          {PetGenderLabel[gender]}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                  <div className="w-full sm:w-1/2">
+                    <FormInput
+                      label="Sức khỏe"
+                      id="name"
                       type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Hoạt động"
-                      defaultValue="Nhập mẹ thú cưng"
+                      variant="secondary"
+                      className="w-full"
+                      placeholder="Nhập sức khỏe"
+                      {...register("health")}
+                      error={errors.health?.message}
+                    />
+                  </div>
+
+                  <div className="w-full sm:w-1/2">
+                    <FormInput
+                      label="Số lượng"
+                      id="name"
+                      type="text"
+                      variant="secondary"
+                      className="w-full"
+                      placeholder="Nhập số lượng"
+                      {...register("quantity")}
+                      error={errors.quantity?.message}
                     />
                   </div>
                 </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                   <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="phoneNumber"
-                    >
-                      Số lượng
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    <FormInput
+                      label="Giá"
+                      id="name"
                       type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Có"
-                      defaultValue="Nhập bố thú cưng"
-                    />
-                  </div>
-
-                  <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="phoneNumber"
-                    >
-                      Giá
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="Hoạt động"
-                      defaultValue="Nhập mẹ thú cưng"
+                      variant="secondary"
+                      className="w-full"
+                      placeholder="Nhập giá"
+                      {...register("price")}
+                      error={errors.price?.message}
                     />
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -298,55 +471,33 @@ const AddPet = () => {
               </h3>
             </div>
             <div className="p-7">
-              <form action="#">
+              <div>
                 <div
                   id="FileUpload"
-                  className="relative mb-5.5 block h-[240px] w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray px-4 py-4 dark:bg-meta-4 sm:py-7.5"
+                  className={cn(
+                    "relative mb-5.5 block h-[242px] w-[242px] cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray px-4 py-4 sm:py-7.5 dark:bg-meta-4",
+                  )}
                 >
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="absolute inset-0 z-50 m-0 h-[240px] w-full cursor-pointer p-0 opacity-0 outline-none"
-                  />
-                  <div className="flex h-full flex-col items-center justify-center space-y-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M1.99967 9.33337C2.36786 9.33337 2.66634 9.63185 2.66634 10V12.6667C2.66634 12.8435 2.73658 13.0131 2.8616 13.1381C2.98663 13.2631 3.1562 13.3334 3.33301 13.3334H12.6663C12.8431 13.3334 13.0127 13.2631 13.1377 13.1381C13.2628 13.0131 13.333 12.8435 13.333 12.6667V10C13.333 9.63185 13.6315 9.33337 13.9997 9.33337C14.3679 9.33337 14.6663 9.63185 14.6663 10V12.6667C14.6663 13.1971 14.4556 13.7058 14.0806 14.0809C13.7055 14.456 13.1968 14.6667 12.6663 14.6667H3.33301C2.80257 14.6667 2.29387 14.456 1.91879 14.0809C1.54372 13.7058 1.33301 13.1971 1.33301 12.6667V10C1.33301 9.63185 1.63148 9.33337 1.99967 9.33337Z"
-                          fill="#3C50E0"
-                        />
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M7.5286 1.52864C7.78894 1.26829 8.21106 1.26829 8.4714 1.52864L11.8047 4.86197C12.0651 5.12232 12.0651 5.54443 11.8047 5.80478C11.5444 6.06513 11.1223 6.06513 10.8619 5.80478L8 2.94285L5.13807 5.80478C4.87772 6.06513 4.45561 6.06513 4.19526 5.80478C3.93491 5.54443 3.93491 5.12232 4.19526 4.86197L7.5286 1.52864Z"
-                          fill="#3C50E0"
-                        />
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M7.99967 1.33337C8.36786 1.33337 8.66634 1.63185 8.66634 2.00004V10C8.66634 10.3682 8.36786 10.6667 7.99967 10.6667C7.63148 10.6667 7.33301 10.3682 7.33301 10V2.00004C7.33301 1.63185 7.63148 1.33337 7.99967 1.33337Z"
-                          fill="#3C50E0"
-                        />
-                      </svg>
-                    </span>
-                    <p>
-                      <span className="text-primary">Nhấn để thêm ảnh</span>
-                    </p>
+                  <div
+                    className="flex h-[242px] w-[242px] flex-col items-center justify-center space-y-3"
+                    onClick={onChangeImage}
+                  >
+                    <Image src={productImage} fill alt="pet" />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      ref={productImageInputRef}
+                      style={{ display: "none" }}
+                      multiple={false}
+                      onChange={handleChangeImage}
+                    />
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

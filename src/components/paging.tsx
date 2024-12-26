@@ -9,7 +9,6 @@ export default function Paging({
   pageCurrent,
   handlePagingFilter,
 }: PagingProps) {
-  console.log(pageNum, pageCurrent);
   return (
     <li className="">
       <button
