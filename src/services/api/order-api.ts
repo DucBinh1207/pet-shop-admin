@@ -1,38 +1,37 @@
-// import { get, post } from "../axios";
-// import { toSnakeCase } from "@/utils/to-snake-case";
-// import { toCamelCase } from "@/utils/to-camel-case";
-// import { OrderFormType } from "@/app/cart/checkout/_components/bill-details";
-// import { OrderApiResponse, OrderType } from "@/types/order-item";
+import { ListOrderResponseType, OrderApiResponse } from "@/types/order";
+import { toCamelCase } from "@/utils/to-camel-case";
+import { get, postFormData, update } from "../axios";
 
-// export async function CreateOrder({
-//   data: orderData,
-// }: {
-//   data: OrderFormType;
-// }) {
-//   type dataType = {
-//     idOrder: string;
-//     amount: string;
-//   };
-//   const data = toSnakeCase(orderData);
-//   const dataResponse = await post<dataType>({
-//     url: "/orders/create",
-//     data,
-//   });
-//   return toCamelCase<dataType>(dataResponse);
-// }
+export async function getOrders(url: string) {
+  const rawData = await get<ListOrderResponseType>({
+    url: url,
+  });
+  const data = toCamelCase<ListOrderResponseType>(rawData);
+  return data;
+}
 
-// export async function getOrderDetail(url: string) {
-//   const rawData = await get<OrderApiResponse>({
-//     url: url,
-//   });
-//   const data = toCamelCase<OrderApiResponse>(rawData);
-//   return data;
-// }
+export async function getOrderDetail(url: string) {
+  const rawData = await get<OrderApiResponse>({
+    url: url,
+  });
+  const data = toCamelCase<OrderApiResponse>(rawData);
+  return data;
+}
 
-// export async function getOrderItems(url: string) {
-//   const rawData = await get<OrderType[]>({
-//     url: url,
-//   });
-//   const data = toCamelCase<OrderType[]>(rawData);
-//   return data;
-// }
+export async function updateOrderStatus({
+  data,
+}: {
+  data: { id: string; status: number };
+}) {
+  return await update({
+    url: "/admin/orders/status",
+    data,
+  });
+}
+
+export async function createOrder({ data }: { data: FormData }) {
+  return await postFormData({
+    url: "/admin/orders/create",
+    data,
+  });
+}

@@ -6,3 +6,15 @@ export type Product = {
   sold: number;
   profit: number;
 };
+
+export type ProductVariant = {
+  productVariantId: string;
+  name: string;
+  category: string;
+  ingredient: string;
+  weight: string;
+  size: string;
+  color: string;
+  stock: string;
+  price: string;
+};

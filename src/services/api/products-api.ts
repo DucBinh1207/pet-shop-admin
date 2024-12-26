@@ -5,6 +5,7 @@ import { toSnakeCase } from "@/utils/to-snake-case";
 import { ProductToDeleteType } from "@/app/product/shared/type/productToDelete";
 import { FoodType, ListFoodResponse } from "@/types/food";
 import { ListSupplyResponse, SupplyType } from "@/types/supply";
+import { ProductVariant } from "@/types/product";
 
 export async function getPets(url: string) {
   const rawData = await get<ListPetResponse>({
@@ -100,6 +101,15 @@ export async function createProduct({ data }: { data: FormData }) {
     url: "/admin/products/create",
     data,
   });
+}
+
+
+export async function searchProduct(url: string) {
+  const rawData = await get<ProductVariant[]>({
+    url: url,
+  });
+  const data = toCamelCase<ProductVariant[]>(rawData);
+  return data;
 }
 
 // export async function getPetDetail(url: string) {

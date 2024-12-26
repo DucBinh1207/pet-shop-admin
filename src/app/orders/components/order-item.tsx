@@ -1,171 +1,166 @@
-export default function OrderItem() {
+import FormInput from "@/components/form-input";
+import { OrderItemType } from "@/types/order";
+import { ConvertProductCategory } from "@/utils/convert-product-category";
+
+type props = {
+  orderItem: OrderItemType;
+  index: number;
+};
+
+export default function OrderItem({ orderItem, index }: props) {
   return (
     <>
       <h5 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Sản phẩm thứ 1
+        Sản phẩm thứ {index + 1}
       </h5>
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
         <div className="w-full sm:w-1/2">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="phoneNumber"
-          >
-            Tổng phụ
-          </label>
-          <input
-            className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+          <FormInput
+            disabled
+            label="Mã sản phẩm"
+            id="name"
             type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="Có"
-            defaultValue="Chó"
+            variant="secondary"
+            className="w-full"
+            placeholder="Nhập tên sản phẩm"
+            value={orderItem.idProduct}
           />
         </div>
-
         <div className="w-full sm:w-1/2">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="phoneNumber"
-          >
-            Phí ship
-          </label>
-          <input
-            className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+          <FormInput
+            disabled
+            label="Mã biến thể sản phẩm"
+            id="name"
             type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="Hoạt động"
-            defaultValue="Husky"
+            variant="secondary"
+            className="w-full"
+            placeholder="Nhập tên sản phẩm"
+            value={orderItem.id}
           />
         </div>
       </div>
 
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
         <div className="w-full sm:w-1/2">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="fullName"
-          >
-            Giảm giá
-          </label>
-          <div className="relative">
-            <span className="absolute left-4.5 top-4"></span>
-            <input
-              className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+          <FormInput
+            disabled
+            label="Tên sản phẩm"
+            id="name"
+            type="text"
+            variant="secondary"
+            className="w-full"
+            placeholder="Nhập tên sản phẩm"
+            value={orderItem.name}
+          />
+        </div>
+
+        <div className="w-full sm:w-1/2">
+          <FormInput
+            disabled
+            label="Loại sản phẩm"
+            id="name"
+            type="text"
+            variant="secondary"
+            className="w-full"
+            placeholder="Nhập tên sản phẩm"
+            value={ConvertProductCategory(orderItem.category)}
+          />
+        </div>
+      </div>
+
+      <div className="mb-5.5">
+        <FormInput
+          disabled
+          label="Ảnh"
+          id="name"
+          type="text"
+          variant="secondary"
+          className="w-full"
+          placeholder="Nhập tên sản phẩm"
+          value={orderItem.image}
+        />
+      </div>
+
+      {orderItem.ingredient && orderItem.weight && (
+        <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="w-full sm:w-1/2">
+            <FormInput
+              disabled
+              label="Nguyên liệu"
+              id="name"
               type="text"
-              name="fullName"
-              id="fullName"
-              placeholder="example@gmail.com"
-              defaultValue="example@gmail.com"
+              variant="secondary"
+              className="w-full"
+              value={orderItem.ingredient}
+            />
+          </div>
+
+          <div className="w-full sm:w-1/2">
+            <FormInput
+              disabled
+              label="Cân nặng"
+              id="name"
+              type="text"
+              variant="secondary"
+              className="w-full"
+              value={orderItem.weight}
             />
           </div>
         </div>
+      )}
 
-        <div className="w-full sm:w-1/2">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="phoneNumber"
-          >
-            Tổng tiền
-          </label>
-          <input
-            className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-            type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="+990 3343 7865"
-            defaultValue="+990 3343 7865"
-          />
-        </div>
-      </div>
-
-      <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-        <div className="w-full sm:w-1/2">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="fullName"
-          >
-            Ngày tạo đơn
-          </label>
-          <div className="relative">
-            <span className="absolute left-4.5 top-4"></span>
-            <input
-              className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+      {orderItem.size && orderItem.color && (
+        <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="w-full sm:w-1/2">
+            <FormInput
+              disabled
+              label="Kích cỡ"
+              id="name"
               type="text"
-              name="fullName"
-              id="fullName"
-              placeholder="Devid Jhon"
-              defaultValue="Devid Jhon"
+              variant="secondary"
+              className="w-full"
+              value={orderItem.size}
+            />
+          </div>
+
+          <div className="w-full sm:w-1/2">
+            <FormInput
+              disabled
+              label="Màu sắc"
+              id="name"
+              type="text"
+              variant="secondary"
+              className="w-full"
+              value={orderItem.color}
             />
           </div>
         </div>
-
-        <div className="w-full sm:w-1/2">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="phoneNumber"
-          >
-            Phương thức thanh toán
-          </label>
-          <input
-            className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-            type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="Việt Nam"
-            defaultValue="Việt Nam"
-          />
-        </div>
-      </div>
+      )}
 
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-        <div className="w-full sm:w-1/3">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="phoneNumber"
-          >
-            Họ tên người nhận hàng
-          </label>
-          <input
-            className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+        <div className="w-full sm:w-1/2">
+          <FormInput
+            disabled
+            label="Số lượng đã mua"
+            id="name"
             type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="Có"
-            defaultValue="Nhập bố thú cưng"
+            variant="secondary"
+            className="w-full"
+            placeholder="Nhập tên sản phẩm"
+            value={orderItem.quantity}
           />
         </div>
 
-        <div className="w-full sm:w-1/3">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="phoneNumber"
-          >
-            Số điện thoại
-          </label>
-          <input
-            className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+        <div className="w-full sm:w-1/2">
+          <FormInput
+            disabled
+            label="Giá"
+            id="name"
             type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="Hoạt động"
-            defaultValue="Nhập mẹ thú cưng"
-          />
-        </div>
-        <div className="w-full sm:w-1/3">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="phoneNumber"
-          >
-            Email
-          </label>
-          <input
-            className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-            type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="Hoạt động"
-            defaultValue="Nhập mẹ thú cưng"
+            variant="secondary"
+            className="w-full"
+            placeholder="Nhập tên sản phẩm"
+            value={orderItem.price}
           />
         </div>
       </div>
