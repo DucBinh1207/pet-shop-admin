@@ -1,25 +1,29 @@
-import { PetResponseType } from "@/types/pet";
-import usePetDetail from "@/hooks/products/usePetDetail";
 import TableSkeleton from "@/components/Tables/table-skeleton";
 import useBlockScroll from "@/hooks/use-block-scroll";
-import PetForm from "./pet-form";
+import useFoodDetail from "@/hooks/products/useFoodDetail";
+import { FoodResponseType } from "@/types/food";
+import FoodForm from "./food-form";
 import ProductImage from "./product-image";
 
 type props = {
-  pet: PetResponseType;
-  handleClosePetDetail: () => void;
+  food: FoodResponseType;
+  handleCloseFoodDetail: () => void;
   refresh: () => void;
 };
 
-const PetDetail = ({ pet: petData, handleClosePetDetail, refresh }: props) => {
+const FoodDetail = ({
+  food: foodData,
+  handleCloseFoodDetail,
+  refresh,
+}: props) => {
   const {
-    pet,
+    food,
     isLoading,
     isError,
     refresh: refreshDetail,
-  } = usePetDetail({ id: petData.id });
+  } = useFoodDetail({ id: foodData.id });
 
-  useBlockScroll(petData !== null);
+  useBlockScroll(foodData !== null);
 
   if (isError) window.location.href = "/error";
 
@@ -27,14 +31,14 @@ const PetDetail = ({ pet: petData, handleClosePetDetail, refresh }: props) => {
     return <TableSkeleton />;
   }
 
-  if (pet && petData)
+  if (food && foodData)
     return (
       <div className="small-screen:h-0 small-screen:pb-[56.25%] fixed left-[50%] top-[50%] z-[110] h-[90vh] w-[90vw] translate-x-[-50%] translate-y-[-50%] p-[50px]">
         <div className="grid h-full grid-cols-5 gap-8 overflow-hidden">
           <div className="xl:col-span-13 h-ful col-span-4 overflow-y-scroll">
-            <PetForm
-              pet={pet}
-              handleClosePetDetail={handleClosePetDetail}
+            <FoodForm
+              food={food}
+              handleCloseFoodDetail={handleCloseFoodDetail}
               refresh={refresh}
               refreshDetail={refreshDetail}
             />
@@ -49,9 +53,9 @@ const PetDetail = ({ pet: petData, handleClosePetDetail, refresh }: props) => {
               </div>
               <div className="p-7">
                 <ProductImage
-                  id={pet.id}
-                  category="pets"
-                  productImage={pet.image}
+                  id={food.id}
+                  category="foods"
+                  productImage={food.image}
                   refreshDetail={refreshDetail}
                 />
               </div>
@@ -62,4 +66,4 @@ const PetDetail = ({ pet: petData, handleClosePetDetail, refresh }: props) => {
     );
 };
 
-export default PetDetail;
+export default FoodDetail;

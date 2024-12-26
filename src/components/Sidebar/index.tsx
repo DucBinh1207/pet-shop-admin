@@ -23,8 +23,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     })),
   );
 
-  console.log("idRole in sidebar " + idRole);
-
   const menuGroups = [
     {
       name: "",

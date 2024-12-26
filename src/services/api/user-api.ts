@@ -61,8 +61,6 @@ export async function updateProfile({
 }) {
   const data = toSnakeCase(userData);
 
-  console.log(data);
-
   return await update({
     url: "/user/updateWeb",
     data,

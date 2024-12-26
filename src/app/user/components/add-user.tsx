@@ -63,7 +63,7 @@ const AddUser = ({ handleCloseAddUser, refresh }: props) => {
     fetcher: createUser,
     options: {
       onSuccess: async () => {
-        toastSuccess("Đã khóa người dùng");
+        toastSuccess("Đã thêm người dùng");
         refresh();
       },
       onError: (error) => {
