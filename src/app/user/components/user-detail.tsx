@@ -485,16 +485,13 @@ const UserDetail = ({ user, handleCloseUserDetail, refresh }: props) => {
                 <div
                   id="FileUpload"
                   className={cn(
-                    "relative mb-5.5 block h-[242px] w-[242px] appearance-none rounded border border-dashed border-primary bg-gray px-4 py-4 sm:py-7.5 dark:bg-meta-4",
-                    {
-                      "cursor-pointer": !isDisabled,
-                      "cursor-not-allowed": isDisabled,
-                    },
+                    "relative mb-5.5 block h-full w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray dark:bg-meta-4",
                   )}
                 >
                   <div
-                    className="flex h-[242px] w-[242px] flex-col items-center justify-center space-y-3"
+                    className="relative flex h-full w-full flex-col items-center justify-center"
                     onClick={onChangeAvatar}
+                    style={{ width: "100%", height: "100%" }}
                   >
                     <Image
                       src={
@@ -502,8 +499,11 @@ const UserDetail = ({ user, handleCloseUserDetail, refresh }: props) => {
                           ? "/images/user/avatar.svg"
                           : avatar
                       }
-                      fill
+                      width={0}
+                      height={0}
+                      sizes="100%"
                       alt="User"
+                      className="h-full w-full object-cover"
                     />
                     {!isDisabled && (
                       <input

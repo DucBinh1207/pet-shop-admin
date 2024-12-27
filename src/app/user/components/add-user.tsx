@@ -11,6 +11,7 @@ import FormInput from "@/components/form-input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import cn from "@/utils/style/cn";
 
 type props = {
   handleCloseAddUser: () => void;
@@ -316,22 +317,30 @@ const AddUser = ({ handleCloseAddUser, refresh }: props) => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">Avatar</h3>
+              <span className="mt-[10px]">Nhấn để thêm avatar</span>
             </div>
             <div className="p-7">
               <form action="#">
                 <div
                   id="FileUpload"
-                  className="relative mb-5.5 block h-[242px] w-[242px] cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray px-4 py-4 sm:py-7.5 dark:bg-meta-4"
+                  className={cn(
+                    "relative mb-5.5 block h-full w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray dark:bg-meta-4",
+                  )}
                 >
                   <div
-                    className="flex h-[242px] w-[242px] flex-col items-center justify-center space-y-3"
+                    className="relative flex h-full w-full flex-col items-center justify-center"
                     onClick={onChangeAvatar}
+                    style={{ width: "100%", height: "100%" }}
                   >
                     <Image
                       src={avatar === "" ? "/images/user/avatar.svg" : avatar}
-                      fill
+                      width={0}
+                      height={0}
+                      sizes="100%"
                       alt="User"
+                      className="h-full w-full object-cover"
                     />
+
                     <input
                       type="file"
                       accept="image/*"

@@ -18,6 +18,7 @@ import useFoods from "@/hooks/products/useFoods";
 import FoodDetail from "@/app/product/components/food-detail";
 import { FoodResponseType } from "@/types/food";
 import AddFood from "@/app/product/components/add-food";
+import Image from "next/image";
 
 const TableTwo = () => {
   const [product, setProduct] = useState<FoodResponseType | null>(null);
@@ -111,8 +112,9 @@ const TableTwo = () => {
   });
 
   useMemo(() => {
-    if (total) {
-      setTotalPages(total);
+    if (total !== undefined) {
+      if (total === 0) setTotalPages(1);
+      else setTotalPages(total);
     }
   }, [total]);
 
@@ -156,7 +158,7 @@ const TableTwo = () => {
                 <input
                   type="text"
                   value={search}
-                  placeholder="Tìm thú cưng . . . "
+                  placeholder="Nhập tên để tìm thức ăn . . . "
                   className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
                   onChange={handleSearch}
                 />
@@ -207,7 +209,7 @@ const TableTwo = () => {
 
             <div className="p-2.5 text-center xl:p-5">
               <h5 className="text-sm font-medium uppercase xsm:text-base">
-                Loại thú cưng
+                Loại thức ăn
               </h5>
             </div>
 
@@ -249,6 +251,14 @@ const TableTwo = () => {
               key={key}
             >
               <Link href="#" className="flex items-center gap-3 p-2.5 xl:p-5">
+                <div className="h-[48px] w-[48px] flex-shrink-0 overflow-hidden rounded-[50%]">
+                  <Image
+                    src={food.image ?? ""}
+                    alt="user"
+                    width={48}
+                    height={48}
+                  />
+                </div>
                 <p className="hidden text-black sm:block dark:text-white">
                   {food.name}
                 </p>
@@ -259,7 +269,7 @@ const TableTwo = () => {
               </div>
 
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{food.petType}</p>
+                <p className="text-black dark:text-white">{food.type}</p>
               </div>
 
               <div className="flex items-center justify-center p-2.5 xl:p-5">

@@ -100,8 +100,9 @@ const StaffTable = () => {
   }
 
   useMemo(() => {
-    if (total) {
-      setTotalPages(total);
+    if (total !== undefined) {
+      if (total === 0) setTotalPages(1);
+      else setTotalPages(total);
     }
   }, [total]);
 
@@ -111,7 +112,6 @@ const StaffTable = () => {
     return <TableSkeleton />;
   }
 
-  
   if (idRole !== 2) {
     router.push("/forbidden");
     return;
@@ -151,7 +151,7 @@ const StaffTable = () => {
                 <input
                   type="text"
                   value={search}
-                  placeholder="Tìm nhân viên . . . "
+                  placeholder="Nhập email hoặc tên để tìm nhân viên . . . "
                   className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
                   onChange={handleSearch}
                 />
@@ -191,7 +191,7 @@ const StaffTable = () => {
           <div className="grid grid-cols-3 rounded-sm bg-gray-2 sm:grid-cols-6 dark:bg-meta-4">
             <div className="p-2.5 xl:p-5">
               <h5 className="text-sm font-medium uppercase xsm:text-base">
-                Khách hàng
+                Nhân viên
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-5">

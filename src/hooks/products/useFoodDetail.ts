@@ -7,12 +7,12 @@ type props = {
 
 export default function useFoodDetail({ id }: props) {
   const { data, error, isLoading } = useSWR(
-    "/products/foods/" + id,
+    "/admin/products/foods/" + id,
     getFoodDetail,
   );
 
   const refreshData = () => {
-    mutate("/products/foods/" + id, null, {
+    mutate("/admin/products/foods/" + id, null, {
       revalidate: true,
     });
   };

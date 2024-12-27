@@ -23,6 +23,8 @@ export default function useVouchers({
   params.append("sortBy", sortBy);
   params.append("status", status.toString());
   params.append("available", status.toString());
+  params.append("page", paging.toString());
+  params.append("limit", limit.toString());
 
   const { data, error, isLoading } = useSWR(
     "admin/vouchers?" + params.toString(),
@@ -34,7 +36,7 @@ export default function useVouchers({
 
   return {
     vouchers: data?.vouchers,
-    // totalPages: data?.totalPages,
+    totalPages: data?.totalPages,
     isLoading,
     isError: error,
     refresh: refreshData,

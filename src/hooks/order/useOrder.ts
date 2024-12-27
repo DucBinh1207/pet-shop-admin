@@ -19,7 +19,7 @@ export default function useOrder({
 }: props) {
   const params = new URLSearchParams();
 
-  params.append("userId", search);
+  params.append("search", search);
   params.append("page", paging.toString());
   params.append("limit", limit.toString());
   params.append("sortBy", sortBy);

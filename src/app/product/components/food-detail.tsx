@@ -52,6 +52,7 @@ const FoodDetail = ({
                 </h3>
               </div>
               <div className="p-7">
+                
                 <ProductImage
                   id={food.id}
                   category="foods"

@@ -7,11 +7,9 @@ import FormInput from "@/components/form-input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  deleteVoucher,
-  updateVoucher,
-} from "@/services/api/voucher-api";
+import { deleteVoucher, updateVoucher } from "@/services/api/voucher-api";
 import { VoucherType } from "@/types/voucher";
+import { VoucherStatus } from "@/constants/voucher-status";
 
 type props = {
   voucher: VoucherType;
@@ -86,12 +84,14 @@ const VoucherDetail = ({
     },
   });
 
-    const { idRole } = useRole(
-      useShallow((state) => ({
-        idRole: state.idRole,
-      })),
-    );
+  const { idRole } = useRole(
+    useShallow((state) => ({
+      idRole: state.idRole,
+    })),
+  );
 
+  const isDisabled =
+    !CheckRole(idRole) && voucher.status !== VoucherStatus.DELETED;
 
   function handleDeleteVoucher(id: string) {
     const data = {
@@ -100,7 +100,6 @@ const VoucherDetail = ({
     if (CheckRole(idRole)) mutateDeleteVoucher({ data });
     else toastError("Bạn không được phép thực hiện chức năng này");
   }
-
 
   const onSubmit = handleSubmit((data: UpdateVoucherFormType) => {
     mutate({ data });
@@ -116,7 +115,7 @@ const VoucherDetail = ({
                 Thông tin chi tiết
               </h3>
               <div className="flex justify-end gap-4.5">
-                {CheckRole(idRole) && (
+                {isDisabled && (
                   <>
                     <button
                       className="flex justify-center rounded bg-red-500 px-6 py-2 font-medium text-gray hover:bg-opacity-90"

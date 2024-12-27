@@ -1,25 +1,38 @@
-// import { toCamelCase } from "@/utils/to-camel-case";
-// import { get, post } from "../axios";
-// import { toSnakeCase } from "@/utils/to-snake-case";
+import { toCamelCase } from "@/utils/to-camel-case";
+import { get, update } from "../axios";
+import { UpdateVoucherFormType } from "@/app/vouchers/components/voucher-detail";
+import { ReviewList } from "@/types/reviews";
 
-// import { AddReviewDataType, ReviewResponse } from "@/types/review";
+export async function getReviews(url: string) {
+  const rawData = await get<ReviewList>({
+    url: url,
+  });
+  const data = toCamelCase<ReviewList>(rawData);
+  return data;
+}
 
-// export async function getReviews(url: string) {
-//   const rawData = await get<ReviewResponse>({
-//     url: url,
-//   });
-//   const data = toCamelCase<ReviewResponse>(rawData);
-//   return data;
-// }
+export async function updateReviewStatus({
+  data,
+}: {
+  data: { id: string; status: number };
+}) {
+  console.log({ data });
+  return await update({
+    url: "/admin/comments/status",
+    data,
+  });
+}
 
-// export async function addReview({
-//   data: reviewData,
-// }: {
-//   data: AddReviewDataType;
-// }) {
-//   const data = toSnakeCase(reviewData);
-//   return await post({
-//     url: "/comments/add",
-//     data,
-//   });
-// }
+export async function updateVoucher({ data }: { data: UpdateVoucherFormType }) {
+  return await update({
+    url: "/admin/vouchers/update",
+    data,
+  });
+}
+
+export async function deleteVoucher({ data }: { data: { id: string } }) {
+  return await update({
+    url: "/admin/vouchers/delete",
+    data,
+  });
+}

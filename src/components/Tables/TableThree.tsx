@@ -18,6 +18,7 @@ import { SupplyResponseType } from "@/types/supply";
 import useSupplies from "@/hooks/products/useSupplies";
 import SupplyDetail from "@/app/product/components/supply-detail";
 import AddSupply from "@/app/product/components/add-supply";
+import Image from "next/image";
 
 const TableThree = () => {
   const [product, setProduct] = useState<SupplyResponseType | null>(null);
@@ -111,8 +112,9 @@ const TableThree = () => {
   });
 
   useMemo(() => {
-    if (total) {
-      setTotalPages(total);
+    if (total !== undefined) {
+      if (total === 0) setTotalPages(1);
+      else setTotalPages(total);
     }
   }, [total]);
 
@@ -156,7 +158,7 @@ const TableThree = () => {
                 <input
                   type="text"
                   value={search}
-                  placeholder="Tìm thú cưng . . . "
+                  placeholder="Nhập tên để tìm đồ dùng . . . "
                   className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
                   onChange={handleSearch}
                 />
@@ -249,6 +251,14 @@ const TableThree = () => {
               key={key}
             >
               <Link href="#" className="flex items-center gap-3 p-2.5 xl:p-5">
+                <div className="h-[48px] w-[48px] flex-shrink-0 overflow-hidden rounded-[50%]">
+                  <Image
+                    src={supply.image ?? ""}
+                    alt="user"
+                    width={48}
+                    height={48}
+                  />
+                </div>
                 <p className="hidden text-black sm:block dark:text-white">
                   {supply.name}
                 </p>

@@ -27,6 +27,14 @@ const OrderTable = () => {
   const [voucherDetailData, setVoucherDetailData] =
     useState<VoucherType | null>(null);
   const [isAddVoucher, setIsAddVoucher] = useState(false);
+  const [sortBy, setSortBy] = useState<"furthest" | "latest" | "">("");
+  const [search, setSearch] = useState("");
+  const [paging, setPaging] = useState(1);
+  const [status, setStatus] = useState<VoucherStatusType>(VoucherStatus.ALL);
+  const [totalPages, setTotalPages] = useState(1);
+  const debouncedSearch = useDebounce(search);
+
+  useBlockScroll(voucherDetailData !== null);
 
   function handleCloseVoucherDetail() {
     setVoucherDetailData(null);
@@ -36,18 +44,9 @@ const OrderTable = () => {
     setIsAddVoucher(false);
   }
 
-  useBlockScroll(voucherDetailData !== null);
-
-  const [sortBy, setSortBy] = useState<"furthest" | "latest" | "">("");
-  const [search, setSearch] = useState("");
-  const [paging, setPaging] = useState(1);
-  const [status, setStatus] = useState<VoucherStatusType>(VoucherStatus.ALL);
-  const [totalPages, setTotalPages] = useState(1);
-  const debouncedSearch = useDebounce(search);
-
   const {
     vouchers,
-    // totalPages: total,
+    totalPages: total,
     isLoading,
     isError,
     refresh,
@@ -109,11 +108,11 @@ const OrderTable = () => {
     else setSortBy("latest");
   }
 
-  // useMemo(() => {
-  //   if (total) {
-  //     setTotalPages(total);
-  //   }
-  // }, [total]);
+  useMemo(() => {
+    if (total) {
+      setTotalPages(total);
+    }
+  }, [total]);
 
   if (isError) window.location.href = "/error";
 
@@ -155,7 +154,7 @@ const OrderTable = () => {
                 <input
                   type="text"
                   value={search}
-                  placeholder="Nhập tên mã . . ."
+                  placeholder="Nhập tên mã để tìm mã giảm giá. . ."
                   className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
                   onChange={handleSearch}
                 />
@@ -170,11 +169,15 @@ const OrderTable = () => {
                 defaultValue={status}
                 onChange={handleStatusChange}
               >
-                {Object.entries(VoucherStatus).map(([, statusValue]) => (
-                  <option key={statusValue} value={statusValue}>
-                    {VoucherStatusLabel[statusValue]}
-                  </option>
-                ))}
+                {Object.entries(VoucherStatus).map(([, statusValue]) => {
+                  if (statusValue !== VoucherStatus.AVAILABLE) {
+                    return (
+                      <option key={statusValue} value={statusValue}>
+                        {VoucherStatusLabel[statusValue]}
+                      </option>
+                    );
+                  }
+                })}
               </select>
             </div>
 
@@ -276,7 +279,7 @@ const OrderTable = () => {
 
               <div className="flex items-center justify-center p-2.5 xl:p-5">
                 <p className="text-meta-5">
-                  {voucher.status === 1 ? (
+                  {voucher.status === VoucherStatus.AVAILABLE ? (
                     <span className="text-green-500">Còn hiệu lực </span>
                   ) : (
                     <span className="text-red-500">Đã xóa</span>

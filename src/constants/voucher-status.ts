@@ -1,8 +1,9 @@
 export const VoucherStatus = {
-  ALL: 0,
-  ACTIVE: 1,
-  OUT_STOCK: 2,
-  DELETED: 3,
+  ALL: 4,
+  ACTIVE: 2,
+  OUT_STOCK: 3,
+  AVAILABLE: 1,
+  DELETED: 0,
 };
 
 export type VoucherStatusType =
@@ -10,7 +11,8 @@ export type VoucherStatusType =
 
 export const VoucherStatusLabel = {
   [VoucherStatus.ALL]: "Tất cả",
-  [VoucherStatus.ACTIVE]: "Khả dụng",
+  [VoucherStatus.ACTIVE]: "Còn số lượng",
   [VoucherStatus.OUT_STOCK]: "Hết số lượng",
   [VoucherStatus.DELETED]: "Đã bị xóa",
+  [VoucherStatus.AVAILABLE]: "Khả dụng",
 };
