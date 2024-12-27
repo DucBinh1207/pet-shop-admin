@@ -236,7 +236,7 @@ const AddSupply = ({ handleCloseAddSupply, refresh }: props) => {
                   <div className="relative">
                     <textarea
                       disabled={isDisabled}
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                       id="bio"
                       rows={6}
                       placeholder="Nhập mô tả"

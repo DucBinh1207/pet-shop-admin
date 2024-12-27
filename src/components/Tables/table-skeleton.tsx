@@ -23,42 +23,29 @@ export default function TableSkeleton() {
               <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
             </div>
           </div>
-          <div className="grid grid-cols-3 border-b border-stroke sm:grid-cols-5 dark:border-strokedark">
-            <div className="flex items-center gap-3 p-2.5 xl:p-5">
-              <div className="h-[48px] w-[48px] flex-shrink-0 animate-pulse overflow-hidden rounded-[50%] bg-gray-300"></div>
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
+          {Array.from({ length: 10 }).map((_, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-3 border-b border-stroke sm:grid-cols-5 dark:border-strokedark"
+            >
+              <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                <div className="h-[48px] w-[48px] flex-shrink-0 animate-pulse overflow-hidden rounded-[50%] bg-gray-300"></div>
+                <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
+              </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
+              </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
+              </div>
+              <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
+              </div>
+              <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
+              </div>
             </div>
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 border-b border-stroke sm:grid-cols-5 dark:border-strokedark">
-            <div className="flex items-center gap-3 p-2.5 xl:p-5">
-              <div className="h-[48px] w-[48px] flex-shrink-0 animate-pulse overflow-hidden rounded-[50%] bg-gray-300"></div>
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <div className="h-4 w-24 animate-pulse bg-gray-300"></div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
