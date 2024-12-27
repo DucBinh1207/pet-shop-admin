@@ -2,7 +2,7 @@
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import VoucherTable from "@/components/Tables/Vouchers";
+import VoucherTable from "@/components/Tables/VouchersTable";
 
 const Page = () => {
   return (

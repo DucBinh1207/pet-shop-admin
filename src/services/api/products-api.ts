@@ -76,19 +76,6 @@ export async function updateSupply({ data }: { data: FormData }) {
   });
 }
 
-export async function deleteProduct({
-  data: productData,
-}: {
-  data: ProductToDeleteType;
-}) {
-  const data = toSnakeCase(productData);
-
-  return await update({
-    url: "/admin/products/delete",
-    data,
-  });
-}
-
 export async function updateProductImage({ data }: { data: FormData }) {
   return await updateFormData({
     url: "/admin/products/image",
@@ -103,13 +90,25 @@ export async function createProduct({ data }: { data: FormData }) {
   });
 }
 
-
 export async function searchProduct(url: string) {
   const rawData = await get<ProductVariant[]>({
     url: url,
   });
   const data = toCamelCase<ProductVariant[]>(rawData);
   return data;
+}
+
+export async function deleteProduct({
+  data: productData,
+}: {
+  data: ProductToDeleteType;
+}) {
+  const data = toSnakeCase(productData);
+
+  return await update({
+    url: "/admin/products/delete",
+    data,
+  });
 }
 
 // export async function getPetDetail(url: string) {
