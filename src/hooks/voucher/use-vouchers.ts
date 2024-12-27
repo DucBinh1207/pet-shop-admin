@@ -1,4 +1,4 @@
-import { VoucherStatusTypes } from "@/constants/voucher-status";
+import { VoucherStatusType } from "@/constants/voucher-status";
 import { getVouchers } from "@/services/api/voucher-api";
 import useSWR, { mutate } from "swr";
 
@@ -7,7 +7,7 @@ type props = {
   paging: number;
   limit?: number;
   sortBy: string;
-  status: VoucherStatusTypes;
+  status: VoucherStatusType;
 };
 
 export default function useVouchers({
