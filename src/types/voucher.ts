@@ -1,8 +1,13 @@
-export type VOUCHER = {
+export type VoucherType = {
   id: string;
   code: string;
   percent: string;
-  date_created: string;
+  dateCreated: string;
   status: number;
   quantity: number;
 };
+
+export type ListVoucherResponseApi = {
+  vouchers: VoucherType[];
+  
+}
