@@ -6,7 +6,7 @@ export const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 7000,
+  timeout: 15000,
 });
 
 apiClient.interceptors.request.use(
@@ -23,7 +23,6 @@ apiClient.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-
 
 apiClient.interceptors.response.use(
   (response) => {
@@ -82,4 +81,3 @@ export const update = <T>({
 }): Promise<T> => apiClient.put(url, data, config);
 
 export const remove = ({ url }: { url: string }) => apiClient.delete(url);
-
