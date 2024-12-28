@@ -1,6 +1,6 @@
 import FormInput from "@/components/form-input";
 import { OrderResponseType, OrderType } from "@/types/order";
-import convertDate from "@/utils/convert-date";
+import { convertDateFull } from "@/utils/convert-date";
 import OrderItem from "./order-item";
 import useRole from "@/store/useRole";
 import { useShallow } from "zustand/shallow";
@@ -237,7 +237,7 @@ export default function OrderForm({
                 variant="secondary"
                 className="w-full"
                 placeholder="Nhập tên sản phẩm"
-                value={convertDate(order.dateCreated)}
+                value={convertDateFull(order.dateCreated)}
               />
             </div>
             <div className="w-full sm:w-1/2">

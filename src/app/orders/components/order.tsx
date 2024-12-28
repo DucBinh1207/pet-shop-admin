@@ -8,7 +8,7 @@ import { updateOrderStatus } from "@/services/api/order-api";
 import useRole from "@/store/useRole";
 import { OrderResponseType } from "@/types/order";
 import CheckRole from "@/utils/checkRole";
-import convertDate from "@/utils/convert-date";
+import { convertDateFull } from "@/utils/convert-date";
 import { toastError, toastSuccess } from "@/utils/toast";
 import Link from "next/link";
 import { useState } from "react";
@@ -75,7 +75,7 @@ export default function Order({ order, setOrderDetailData }: props) {
 
       <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
         <p className="text-black dark:text-white">
-          {convertDate(order.dateCreated)}
+          {convertDateFull(order.dateCreated)}
         </p>
       </div>
 

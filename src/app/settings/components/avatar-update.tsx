@@ -85,7 +85,7 @@ export default function AvatarUpdate({ userInfo }: props) {
                 <Image
                   src={
                     avatar === undefined || avatar === null
-                      ? "/images/user/avatar.svg"
+                      ? "/images/empty.png"
                       : avatar
                   }
                   width={0} 
