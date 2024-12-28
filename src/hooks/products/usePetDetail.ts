@@ -7,12 +7,12 @@ type props = {
 
 export default function usePetDetail({ id }: props) {
   const { data, error, isLoading } = useSWR(
-    "/products/pets/" + id,
+    "/admin/products/pets/" + id,
     getPetDetail,
   );
 
   const refreshData = () => {
-    mutate("/products/pets/" + id, null, {
+    mutate("/admin/products/pets/" + id, null, {
       revalidate: true,
     });
   };

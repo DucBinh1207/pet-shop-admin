@@ -1,6 +1,6 @@
 import { UpdateUserType } from "@/app/user/components/user-detail";
 import { get, postFormData, update, updateFormData } from "../axios";
-import { ResponseGetUsersApi, UserType } from "@/types/user";
+import { ResponseGetUsersApi, UserType} from "@/types/user";
 import { toCamelCase } from "@/utils/to-camel-case";
 import { toSnakeCase } from "@/utils/to-snake-case";
 import { ResponseUpdateAvatar } from "@/types/response-update-avatar";

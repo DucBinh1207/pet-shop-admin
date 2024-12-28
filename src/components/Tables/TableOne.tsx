@@ -18,6 +18,7 @@ import { ProductToDeleteType } from "@/app/product/shared/type/productToDelete";
 import useRole from "@/store/useRole";
 import { useShallow } from "zustand/shallow";
 import CheckRole from "@/utils/checkRole";
+import Image from "next/image";
 
 const TableOne = () => {
   const [product, setProduct] = useState<PetResponseType | null>(null);
@@ -111,8 +112,9 @@ const TableOne = () => {
   });
 
   useMemo(() => {
-    if (total) {
-      setTotalPages(total);
+    if (total !== undefined) {
+      if (total === 0) setTotalPages(1);
+      else setTotalPages(total);
     }
   }, [total]);
 
@@ -156,7 +158,7 @@ const TableOne = () => {
                 <input
                   type="text"
                   value={search}
-                  placeholder="Tìm thú cưng . . . "
+                  placeholder="Nhập tên để tìm thú cưng . . . "
                   className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
                   onChange={handleSearch}
                 />
@@ -249,6 +251,14 @@ const TableOne = () => {
               key={key}
             >
               <Link href="#" className="flex items-center gap-3 p-2.5 xl:p-5">
+                <div className="h-[48px] w-[48px] flex-shrink-0 overflow-hidden rounded-[50%]">
+                  <Image
+                    src={pet.image ?? ""}
+                    alt="user"
+                    width={48}
+                    height={48}
+                  />
+                </div>
                 <p className="hidden text-black sm:block dark:text-white">
                   {pet.name}
                 </p>

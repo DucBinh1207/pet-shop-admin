@@ -26,6 +26,7 @@ export type FoodResponseType = {
   id: string;
   dateCreated: string;
   name: string;
+  image: string;
   rating: number | null;
   type: string;
   price: number;

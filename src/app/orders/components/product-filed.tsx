@@ -75,6 +75,22 @@ const ProductField: React.FC<ProductFieldProps> = ({
       item.productVariantId,
     );
     setValue(`variationsProduct.${index}.category`, item.category);
+    setValue(`variationsProduct.${index}.price`, item.price.toString());
+    setValue(
+      `variationsProduct.${index}.product`,
+      [
+        `[${item.productVariantId}]`,
+        item.name,
+        item.category,
+        item.ingredient !== "" ? item.ingredient : null,
+        item.weight !== "" ? item.weight : null,
+        item.size !== "" ? item.size : null,
+        item.color !== "" ? item.color : null,
+        `Giá: ${item.price}đ`,
+      ]
+        .filter(Boolean)
+        .join(", "),
+    );
   }
   const { product } = useProducts({
     name: debouncedSearch,
@@ -169,6 +185,49 @@ const ProductField: React.FC<ProductFieldProps> = ({
           />
         </div>
       </div>
+
+      <div className="mb-5.5 hidden flex-col gap-5.5 sm:flex-row">
+        <div className="w-full sm:w-1/2">
+          <Controller
+            name={`variationsProduct.${index}.product` as const}
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                readOnly
+                label="Sản phẩm"
+                id="product"
+                type="text"
+                variant="secondary"
+                className="w-full"
+                placeholder=""
+                {...field}
+                error={errors.variationsProduct?.[index]?.product?.message}
+              />
+            )}
+          />
+        </div>
+
+        <div className="w-full sm:w-1/2">
+          <Controller
+            name={`variationsProduct.${index}.price` as const}
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                readOnly
+                label="Loại sản phẩm"
+                id="ingredient"
+                type="text"
+                variant="secondary"
+                className="w-full"
+                placeholder=""
+                {...field}
+                error={errors.variationsProduct?.[index]?.price?.message}
+              />
+            )}
+          />
+        </div>
+      </div>
+
       <div className="mb-5.5 hidden flex-col gap-5.5 sm:flex-row">
         <div className="w-full sm:w-1/2">
           <Controller

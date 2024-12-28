@@ -1,11 +1,16 @@
-export type REVIEW = {
+export type Review = {
   id: string;
-  id_user: string;
-  email: string;
-  name: string;
+  userId: string;
   image: string;
+  idProduct: string;
+  productName: string;
   star: number;
   content: string;
-  time: string;
   status: number;
+  dateCreated: string;
+};
+
+export type ReviewList = {
+  comments: Review[];
+  totalPages: number;
 };

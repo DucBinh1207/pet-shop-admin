@@ -14,6 +14,7 @@ import { toastError } from "@/utils/toast";
 import useRole from "@/store/useRole";
 import { useShallow } from "zustand/shallow";
 import { RoleRender } from "@/utils/checkRole";
+import useUserDetail from "@/hooks/user/use-user-detail";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -23,6 +24,17 @@ const DropdownUser = () => {
       idRole: state.idRole,
     })),
   );
+
+  const { userInfo } = useUserDetail();
+
+  let name;
+  if (userInfo) {
+    if (userInfo.name) {
+      name = userInfo.name;
+    } else {
+      name = userInfo.email;
+    }
+  }
 
   const { mutate } = useMutation({
     fetcher: LogOut,
@@ -54,14 +66,14 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {RoleRender(idRole)}
           </span>
-          <span className="block text-xs">Tran Binh</span>
+          <span className="block text-xs">{name}</span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
+        <span className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-[50%]">
           <Image
             width={112}
             height={112}
-            src={"/images/user/user-01.png"}
+            src={userInfo?.image ?? "/images/user/user-01.png"}
             style={{
               width: "auto",
               height: "auto",

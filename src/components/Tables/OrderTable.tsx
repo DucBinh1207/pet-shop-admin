@@ -74,8 +74,9 @@ const OrderTable = () => {
   }
 
   useMemo(() => {
-    if (total) {
-      setTotalPages(total);
+    if (total !== undefined) {
+      if (total === 0) setTotalPages(1);
+      else setTotalPages(total);
     }
   }, [total]);
 
@@ -119,7 +120,7 @@ const OrderTable = () => {
                 <input
                   type="text"
                   value={search}
-                  placeholder="Nhập mã người dùng để tìm đơn hàng . . ."
+                  placeholder="Nhập mã hoặc tên người nhận hàng để tìm đơn hàng . . ."
                   className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
                   onChange={handleSearch}
                 />
@@ -236,15 +237,6 @@ const OrderTable = () => {
         {isAddOrder && (
           <>
             <AddOrder handleCloseAddOrder={handleCloseAddOrder} />
-            <div
-              className={cn(
-                "fixed inset-0 z-[105] h-[100vh] w-[100vw] bg-overlay_color transition-opacity",
-                {
-                  "block opacity-100": isAddOrder,
-                  "hidden opacity-0": !isAddOrder,
-                },
-              )}
-            />
           </>
         )}
       </div>
