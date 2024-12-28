@@ -186,7 +186,7 @@ const ProductField: React.FC<ProductFieldProps> = ({
         </div>
       </div>
 
-      <div className="mb-5.5 flex-col gap-5.5 sm:flex-row">
+      <div className="mb-5.5 hidden flex-col gap-5.5 sm:flex-row">
         <div className="w-full sm:w-1/2">
           <Controller
             name={`variationsProduct.${index}.product` as const}
