@@ -68,7 +68,7 @@ const AddFood = ({ handleCloseAddFood, refresh }: props) => {
   const productImageInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [productImage, setProductImage] = useState(
-    "/images/product/border-colie.png",
+    "/images/empty.png",
   );
 
   const [expireDate, setExpireDate] = useState("");

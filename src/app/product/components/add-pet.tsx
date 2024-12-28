@@ -49,9 +49,7 @@ const AddPet = ({ handleCloseAddPet, refresh }: props) => {
   useBlockScroll(true);
 
   const [file, setFile] = useState<File | null>(null);
-  const [productImage, setProductImage] = useState(
-    "/images/product/border-colie.png",
-  );
+  const [productImage, setProductImage] = useState("/images/empty.png");
 
   const productImageInputRef = useRef<HTMLInputElement>(null);
 

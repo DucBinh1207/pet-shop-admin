@@ -88,7 +88,7 @@ export default function ReviewItem({ review, setReviewDetailData }: props) {
 
       <div className="flex items-center justify-center p-2.5 xl:p-5">
         <p className="text-black dark:text-white">
-          {convertDateFull(review.dateCreated)}
+          {review.time ? convertDateFull(review.time) : ""}
         </p>
       </div>
 

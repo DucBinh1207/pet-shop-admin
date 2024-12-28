@@ -8,7 +8,7 @@ import Pagination from "../pagination";
 import useVouchers from "@/hooks/voucher/use-vouchers";
 import { VoucherType } from "@/types/voucher";
 import Link from "next/link";
-import convertDate from "@/utils/convert-date";
+import { convertDateFull } from "@/utils/convert-date";
 import {
   VoucherStatus,
   VoucherStatusLabel,
@@ -269,7 +269,7 @@ const OrderTable = () => {
 
               <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
                 <p className="text-black dark:text-white">
-                  {convertDate(voucher.dateCreated)}
+                  {convertDateFull(voucher.dateCreated)}
                 </p>
               </div>
 

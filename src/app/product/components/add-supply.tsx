@@ -69,9 +69,7 @@ const AddSupply = ({ handleCloseAddSupply, refresh }: props) => {
   );
   const productImageInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [productImage, setProductImage] = useState(
-    "/images/product/border-colie.png",
-  );
+  const [productImage, setProductImage] = useState("/images/empty.png");
 
   const [category, setCategory] = useState<SuppliesCategoryTypes>(
     SuppliesCategoryType.BEDDING,

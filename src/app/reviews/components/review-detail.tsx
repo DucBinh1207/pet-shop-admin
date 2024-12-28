@@ -177,7 +177,7 @@ const ReviewDetail = ({ review, handleCloseReviewDetail, refresh }: props) => {
                     type="text"
                     variant="secondary"
                     className="w-full"
-                    value={convertDateFull(review.dateCreated)}
+                    value={review.time ? convertDateFull(review.time) : ""}
                   />
                 </div>
 

@@ -333,14 +333,13 @@ const AddUser = ({ handleCloseAddUser, refresh }: props) => {
                     style={{ width: "100%", height: "100%" }}
                   >
                     <Image
-                      src={avatar === "" ? "/images/user/avatar.svg" : avatar}
+                      src={avatar === "" ? "/images/empty.png" : avatar}
                       width={0}
                       height={0}
                       sizes="100%"
                       alt="User"
                       className="h-full w-full object-cover"
                     />
-
                     <input
                       type="file"
                       accept="image/*"
