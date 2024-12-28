@@ -7,7 +7,7 @@ export type Review = {
   star: number;
   content: string;
   status: number;
-  time: string;
+  dateCreated: string;
 };
 
 export type ReviewList = {
