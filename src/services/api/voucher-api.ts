@@ -32,3 +32,11 @@ export async function deleteVoucher({ data }: { data: { id: string } }) {
     data,
   });   
 }
+
+export async function unDeleteVoucher({ data }: { data: { id: string } }) {
+  return await update({
+    url: "/admin/vouchers/unDelete",
+    data,
+  });
+}
+

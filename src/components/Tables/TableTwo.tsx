@@ -8,7 +8,7 @@ import { ProductStatus, ProductStatusLabel } from "@/constants/product-status";
 import TableSkeleton from "./table-skeleton";
 import Pagination from "../pagination";
 import useMutation from "@/hooks/use-mutation";
-import { deleteProduct } from "@/services/api/products-api";
+import { deleteProduct, unDeleteProduct } from "@/services/api/products-api";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { ProductToDeleteType } from "@/app/product/shared/type/productToDelete";
 import useRole from "@/store/useRole";
@@ -97,9 +97,33 @@ const TableTwo = () => {
     else toastError("Bạn không được phép thực hiện chức năng này");
   }
 
+  const { mutate: mutateUnDelete } = useMutation({
+    fetcher: unDeleteProduct,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã gỡ xóa sản phẩm");
+        refresh();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  function handleUnDeleteProduct(id: string) {
+    const data: ProductToDeleteType = {
+      idProduct: id,
+      category: "foods",
+    };
+    if (CheckRole(idRole)) mutateUnDelete({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
+
   const {
     foods,
     totalPages: total,
+    totalRecords,
     isLoading,
     isError,
     refresh,
@@ -166,6 +190,7 @@ const TableTwo = () => {
             </form>
           </div>
           <div className="flex gap-[10px]">
+            <div className=" flex items-center text-[18px] italic">(Số lượng:{totalRecords})</div>
             <div>
               <select
                 className="block w-full rounded-sm bg-gray-200 p-2.5 text-black dark:bg-gray-700 dark:text-white"
@@ -300,6 +325,16 @@ const TableTwo = () => {
                       }}
                     >
                       Xóa
+                    </button>
+                  )}
+                  {isDisabled && (
+                    <button
+                      className="rounded bg-boxdark px-4 py-2 text-green-700 hover:bg-gray-700 focus:outline-none"
+                      onClick={() => {
+                        handleUnDeleteProduct(food.id);
+                      }}
+                    >
+                      Gỡ xóa
                     </button>
                   )}
                 </p>

@@ -20,7 +20,7 @@ import CheckRole from "@/utils/checkRole";
 import useRole from "@/store/useRole";
 import { useShallow } from "zustand/shallow";
 import { toastError, toastSuccess } from "@/utils/toast";
-import { deleteVoucher } from "@/services/api/voucher-api";
+import { deleteVoucher, unDeleteVoucher } from "@/services/api/voucher-api";
 import useMutation from "@/hooks/use-mutation";
 
 const OrderTable = () => {
@@ -84,6 +84,29 @@ const OrderTable = () => {
       id: id,
     };
     if (CheckRole(idRole)) mutate({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
+
+  const { mutate: mutateUnDelete } = useMutation({
+    fetcher: unDeleteVoucher,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã gỡ xóa mã giảm giá");
+        handleCloseVoucherDetail();
+        refresh();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  function handleUnDeleteVoucher(id: string) {
+    const data = {
+      id: id,
+    };
+    if (CheckRole(idRole)) mutateUnDelete({ data });
     else toastError("Bạn không được phép thực hiện chức năng này");
   }
 
@@ -297,21 +320,33 @@ const OrderTable = () => {
                   >
                     Xem
                   </button>
-                  {CheckRole(idRole) && (
-                    <>
-                      {voucher.status === 1 && (
-                        <button
-                          className="rounded bg-boxdark px-4 py-2 text-red-700 hover:bg-gray-700 focus:outline-none"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleDeleteVoucher(voucher.id);
-                          }}
-                        >
-                          Xóa
-                        </button>
-                      )}
-                    </>
-                  )}
+                  {CheckRole(idRole) &&
+                    voucher.status !== VoucherStatus.DELETED && (
+                      <>
+                        {voucher.status === 1 && (
+                          <button
+                            className="rounded bg-boxdark px-4 py-2 text-red-700 hover:bg-gray-700 focus:outline-none"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleDeleteVoucher(voucher.id);
+                            }}
+                          >
+                            Xóa
+                          </button>
+                        )}
+                      </>
+                    )}
+                  {voucher.status === VoucherStatus.DELETED &&
+                    CheckRole(idRole) && (
+                      <button
+                        className="rounded bg-boxdark px-4 py-2 text-green-700 hover:bg-gray-700 focus:outline-none"
+                        onClick={() => {
+                          handleUnDeleteVoucher(voucher.id);
+                        }}
+                      >
+                        Gỡ xóa
+                      </button>
+                    )}
                 </p>
               </div>
             </div>

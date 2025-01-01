@@ -9,6 +9,7 @@ import useMutation from "@/hooks/use-mutation";
 import { useState } from "react";
 import OrderBill from "./order-bill";
 import cn from "@/utils/style/cn";
+import AddressSection from "./address-section";
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
   telephoneNumber: z
@@ -54,6 +55,7 @@ export default function AddOrder({ handleCloseAddOrder }: props) {
     handleSubmit,
     setValue,
     getValues,
+    trigger,
     control,
     formState: { errors },
   } = useForm<AddOrderFormType>({
@@ -143,10 +145,6 @@ export default function AddOrder({ handleCloseAddOrder }: props) {
     newOrder.append("street", data.street);
     newOrder.append("note", data.note ?? "");
     newOrder.append("product", productList);
-
-    // console.log([...newOrder.entries()]);
-
-    // await mutate({ data: newOrder });
   });
 
   return (
@@ -229,60 +227,23 @@ export default function AddOrder({ handleCloseAddOrder }: props) {
                       </div>
                     </div>
 
-                    <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                      <div className="w-full sm:w-1/2">
-                        <FormInput
-                          label="Tỉnh/ Thành phố"
-                          id="province"
-                          type="text"
-                          variant="secondary"
-                          className="w-full"
-                          placeholder="Nhập tỉnh/thành phố"
-                          {...register("province")}
-                          error={errors.province?.message}
-                        />
-                      </div>
+                    <AddressSection
+                      setValue={setValue}
+                      errors={errors}
+                      trigger={trigger}
+                    />
 
-                      <div className="w-full sm:w-1/2">
-                        <FormInput
-                          label="Quận/ Huyện"
-                          id="district"
-                          type="text"
-                          variant="secondary"
-                          className="w-full"
-                          placeholder="Nhập quận/ huyện"
-                          {...register("district")}
-                          error={errors.district?.message}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                      <div className="w-full sm:w-1/2">
-                        <FormInput
-                          label="Xã/ Phường"
-                          id="ward"
-                          type="text"
-                          variant="secondary"
-                          className="w-full"
-                          placeholder="Nhập xã/ phường"
-                          {...register("ward")}
-                          error={errors.ward?.message}
-                        />
-                      </div>
-
-                      <div className="w-full sm:w-1/2">
-                        <FormInput
-                          label="Đường"
-                          id="ward"
-                          type="text"
-                          variant="secondary"
-                          className="w-full"
-                          placeholder="Nhập đường"
-                          {...register("street")}
-                          error={errors.street?.message}
-                        />
-                      </div>
+                    <div className="mb-5.5">
+                      <FormInput
+                        label="Đường"
+                        id="ward"
+                        type="text"
+                        variant="secondary"
+                        className="w-full"
+                        placeholder="Nhập đường"
+                        {...register("street")}
+                        error={errors.street?.message}
+                      />
                     </div>
 
                     <div className="mb-5.5">

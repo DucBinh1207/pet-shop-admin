@@ -35,6 +35,7 @@ export default function useUser({
   return {
     users: data?.users,
     totalPages: data?.totalPages,
+    totalRecords: data?.totalRecords,
     isLoading,
     isError: error,
     refresh: refreshData,

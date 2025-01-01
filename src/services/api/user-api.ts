@@ -23,6 +23,13 @@ export async function banUser({ data }: { data: { userId: string } }) {
   });
 }
 
+export async function UnBanUser({ data }: { data: { userId: string } }) {
+  return await update({
+    url: "/admin/users/unban",
+    data: data,
+  });
+}
+
 export async function createUser({ data }: { data: FormData }) {
   return await postFormData({
     url: "/admin/users/create",

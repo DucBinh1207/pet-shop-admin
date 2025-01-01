@@ -8,7 +8,11 @@ import {
   PetsCategoryType,
   PetsCategoryTypes,
 } from "@/constants/pets-category-type.ts";
-import { deleteProduct, updatePet } from "@/services/api/products-api";
+import {
+  deleteProduct,
+  unDeleteProduct,
+  updatePet,
+} from "@/services/api/products-api";
 import useMutation from "@/hooks/use-mutation";
 import { toastError, toastSuccess } from "@/utils/toast";
 import {
@@ -87,7 +91,7 @@ export default function PetForm({
     })),
   );
 
-  const isDisabled = !CheckRole(idRole);
+  const isDisabled = !CheckRole(idRole) || pet.status === 0;
 
   const {
     register,
@@ -146,6 +150,31 @@ export default function PetForm({
     },
   });
 
+  const { mutate: mutateUnDelete } = useMutation({
+    fetcher: unDeleteProduct,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã gỡ xóa sản phẩm");
+        refresh();
+        refreshDetail();
+        handleClosePetDetail();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  function handleUnDeleteProduct(id: string) {
+    const data: ProductToDeleteType = {
+      idProduct: id,
+      category: "pets",
+    };
+    if (CheckRole(idRole)) mutateUnDelete({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
+
   const onSubmit = handleSubmit(async (data: UpdatePetFormType) => {
     const updateData = new FormData();
     updateData.append("nameTag", "pets");
@@ -179,7 +208,7 @@ export default function PetForm({
     fetcher: deleteProduct,
     options: {
       onSuccess: async () => {
-        toastSuccess("Đã xóa sản phẩm");
+        toastSuccess("Đã gỡ xóa sản phẩm");
         refresh();
         handleClosePetDetail();
       },
@@ -225,6 +254,18 @@ export default function PetForm({
                 Cập nhật
               </button>
             </>
+          )}
+
+          {isDisabled && (
+            <button
+              className="flex justify-center rounded border border-stroke bg-green-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+              onClick={(e) => {
+                e.preventDefault();
+                handleUnDeleteProduct(pet.id);
+              }}
+            >
+              Gỡ xóa
+            </button>
           )}
 
           <button

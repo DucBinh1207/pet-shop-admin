@@ -38,6 +38,7 @@ export default function useFoods({
   return {
     foods: data?.products,
     totalPages: data?.totalPages,
+    totalRecords: data?.totalRecords,
     isLoading,
     isError: error,
     refresh: refreshData,

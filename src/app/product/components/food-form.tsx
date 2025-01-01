@@ -7,7 +7,11 @@ import {
   PetsCategoryType,
   PetsCategoryTypes,
 } from "@/constants/pets-category-type.ts";
-import { deleteProduct, updateFood } from "@/services/api/products-api";
+import {
+  deleteProduct,
+  unDeleteProduct,
+  updateFood,
+} from "@/services/api/products-api";
 import useMutation from "@/hooks/use-mutation";
 import { toastError, toastSuccess } from "@/utils/toast";
 
@@ -80,7 +84,7 @@ export default function FoodForm({
   const [category, setCategory] = useState<PetsCategoryTypes>(
     food.petType as PetsCategoryTypes,
   );
-  const isDisabled = !CheckRole(idRole);
+  const isDisabled = !CheckRole(idRole) || food.status === 0;
 
   const {
     register,
@@ -125,6 +129,31 @@ export default function FoodForm({
       onFinally: () => {},
     },
   });
+
+  const { mutate: mutateUnDelete } = useMutation({
+    fetcher: unDeleteProduct,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã gỡ xóa sản phẩm");
+        refresh();
+        refreshDetail();
+        handleCloseFoodDetail();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  function handleUnDeleteProduct(id: string) {
+    const data: ProductToDeleteType = {
+      idProduct: id,
+      category: "foods",
+    };
+    if (CheckRole(idRole)) mutateUnDelete({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value as PetsCategoryTypes);
@@ -215,6 +244,18 @@ export default function FoodForm({
             </>
           )}
 
+          {isDisabled && (
+            <button
+              className="flex justify-center rounded border border-stroke bg-green-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+              onClick={(e) => {
+                e.preventDefault();
+                handleUnDeleteProduct(food.id);
+              }}
+            >
+              Gỡ xóa
+            </button>
+          )}
+
           <button
             className="flex justify-center rounded border border-stroke bg-blue-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
             onClick={(e) => {
@@ -287,7 +328,7 @@ export default function FoodForm({
                 type="text"
                 variant="secondary"
                 className="w-full"
-                placeholder="Nhập tiêm phòng"
+                placeholder="Nhập chất dinh dưỡng"
                 {...register("nutritionInfo")}
                 error={errors.nutritionInfo?.message}
               />
@@ -301,7 +342,7 @@ export default function FoodForm({
                 type="text"
                 variant="secondary"
                 className="w-full"
-                placeholder="Nhập xổ giun"
+                placeholder="Nhập thương hiệu"
                 {...register("brand")}
                 error={errors.brand?.message}
               />
@@ -361,27 +402,23 @@ export default function FoodForm({
               {/* Input Select */}
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full sm:w-1/2">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="phoneNumber"
-                  >
-                    Loại nguyên liệu
-                  </label>
                   <Controller
                     name={`variationsFood.${index}.ingredient` as const}
                     control={control}
                     render={({ field }) => (
-                      <select
+                      <FormInput
                         disabled={isDisabled}
+                        label="Nguyên liệu"
+                        id="ingredient"
+                        type="text"
+                        variant="secondary"
+                        className="w-full"
+                        placeholder="Nhập nguyên liệu"
                         {...field}
-                        className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      >
-                        <option value="" disabled>
-                          Lựa chọn nguyên liệu
-                        </option>
-                        <option value="Bò">Thịt bò</option>
-                        <option value="Gà">Thịt gà</option>
-                      </select>
+                        error={
+                          errors.variationsFood?.[index]?.ingredient?.message
+                        }
+                      />
                     )}
                   />
                 </div>
@@ -393,16 +430,14 @@ export default function FoodForm({
                     render={({ field }) => (
                       <FormInput
                         disabled={isDisabled}
-                        label="Nguyên liệu"
-                        id="ingredient"
+                        label="Cân nặng"
+                        id="weight"
                         type="text"
                         variant="secondary"
                         className="w-full"
-                        placeholder="Nhập xổ giun"
+                        placeholder="Nhập cân nặng"
                         {...field}
-                        error={
-                          errors.variationsFood?.[index]?.ingredient?.message
-                        }
+                        error={errors.variationsFood?.[index]?.weight?.message}
                       />
                     )}
                   />

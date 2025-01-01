@@ -16,8 +16,6 @@ import {
   SuppliesCategoryType,
   SuppliesCategoryTypes,
 } from "@/constants/supplies-category-type";
-import { SizeType } from "@/constants/size-type";
-import { ColorType } from "@/constants/color-type";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -257,7 +255,7 @@ const AddSupply = ({ handleCloseAddSupply, refresh }: props) => {
                       type="text"
                       variant="secondary"
                       className="w-full"
-                      placeholder="Nhập tiêm phòng"
+                      placeholder="Nhập nguyên liệu"
                       {...register("material")}
                       error={errors.material?.message}
                     />
@@ -311,59 +309,45 @@ const AddSupply = ({ handleCloseAddSupply, refresh }: props) => {
                   >
                     <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                       <div className="w-full sm:w-1/2">
-                        <label
-                          className="mb-3 block text-sm font-medium text-black dark:text-white"
-                          htmlFor="phoneNumber"
-                        >
-                          Loại nguyên liệu
-                        </label>
                         <Controller
                           name={`variationsSupply.${index}.size` as const}
                           control={control}
                           render={({ field }) => (
-                            <select
+                            <FormInput
                               disabled={isDisabled}
+                              label="Kích cỡ"
+                              id="size"
+                              type="text"
+                              variant="secondary"
+                              className="w-full"
+                              placeholder="Nhập kích cỡ"
                               {...field}
-                              className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                            >
-                              <option value="" disabled>
-                                Lựa chọn kích cỡ
-                              </option>
-                              {Object.entries(SizeType).map(([, size]) => (
-                                <option key={size} value={size}>
-                                  {size}
-                                </option>
-                              ))}
-                            </select>
+                              error={
+                                errors.variationsSupply?.[index]?.size?.message
+                              }
+                            />
                           )}
                         />
                       </div>
 
                       <div className="w-full sm:w-1/2">
-                        <label
-                          className="mb-3 block text-sm font-medium text-black dark:text-white"
-                          htmlFor="phoneNumber"
-                        >
-                          Màu sắc
-                        </label>
                         <Controller
                           name={`variationsSupply.${index}.color` as const}
                           control={control}
                           render={({ field }) => (
-                            <select
+                            <FormInput
                               disabled={isDisabled}
+                              label="Màu sắc"
+                              id="color"
+                              type="text"
+                              variant="secondary"
+                              className="w-full"
+                              placeholder="Nhập màu sắc"
                               {...field}
-                              className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                            >
-                              <option value="" disabled>
-                                Lựa chọn kích cỡ
-                              </option>
-                              {Object.entries(ColorType).map(([, color]) => (
-                                <option key={color} value={color}>
-                                  {color}
-                                </option>
-                              ))}
-                            </select>
+                              error={
+                                errors.variationsSupply?.[index]?.color?.message
+                              }
+                            />
                           )}
                         />
                       </div>

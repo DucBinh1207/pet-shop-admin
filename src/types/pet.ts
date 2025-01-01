@@ -22,6 +22,7 @@ export type PetType = {
   description: string;
   image: string;
   name: string;
+  status: number;
   rating: number | null;
   variationsPets: VariationPet[];
 };
@@ -39,4 +40,5 @@ export type PetResponseType = {
 export type ListPetResponse = {
   products: PetResponseType[];
   totalPages: number;
+  totalRecords: number;
 };

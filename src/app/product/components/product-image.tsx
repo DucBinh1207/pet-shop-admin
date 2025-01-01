@@ -10,6 +10,7 @@ import { useShallow } from "zustand/shallow";
 
 type props = {
   id: string;
+  status: number;
   category: "pets" | "foods" | "supplies";
   productImage: string;
   refreshDetail: () => void;
@@ -17,6 +18,7 @@ type props = {
 
 export default function ProductImage({
   id,
+  status,
   category,
   productImage,
   refreshDetail,
@@ -30,7 +32,7 @@ export default function ProductImage({
     })),
   );
 
-  const isDisabled = !CheckRole(idRole);
+  const isDisabled = !CheckRole(idRole) || status === 0;
 
   const { mutate } = useMutation({
     fetcher: updateProductImage,
@@ -99,15 +101,17 @@ export default function ProductImage({
             alt="Food"
             className="h-full w-full object-cover"
           />
-          <input
-            disabled={isDisabled}
-            type="file"
-            accept="image/*"
-            ref={productImageRef}
-            style={{ display: "none" }}
-            multiple={false}
-            onChange={handleChangeImage}
-          />
+          {!isDisabled && (
+            <input
+              disabled={isDisabled}
+              type="file"
+              accept="image/*"
+              ref={productImageRef}
+              style={{ display: "none" }}
+              multiple={false}
+              onChange={handleChangeImage}
+            />
+          )}
         </div>
       </div>
     </form>

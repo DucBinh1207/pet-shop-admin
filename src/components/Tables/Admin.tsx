@@ -56,6 +56,7 @@ const AdminTable = () => {
   const {
     users,
     totalPages: total,
+    totalRecords,
     isLoading,
     isError,
     refresh,
@@ -99,12 +100,12 @@ const AdminTable = () => {
     setPaging(pagingCurrent);
   }
 
-    useMemo(() => {
-      if (total !== undefined) {
-        if (total === 0) setTotalPages(1);
-        else setTotalPages(total);
-      }
-    }, [total]);
+  useMemo(() => {
+    if (total !== undefined) {
+      if (total === 0) setTotalPages(1);
+      else setTotalPages(total);
+    }
+  }, [total]);
 
   if (isError) window.location.href = "/error";
 
@@ -160,6 +161,9 @@ const AdminTable = () => {
           </div>
 
           <div className="flex gap-[10px]">
+            <div className="flex items-center text-[18px] italic">
+              (Số lượng:{totalRecords})
+            </div>
             <div>
               <select
                 className="block w-full rounded-sm bg-gray-200 p-2.5 text-black dark:bg-gray-700 dark:text-white"

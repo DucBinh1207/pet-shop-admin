@@ -4,6 +4,7 @@ import { RenderUserStatus } from "@/utils/renderUserStatus";
 import CheckRole from "@/utils/checkRole";
 import {
   banUser,
+  UnBanUser,
   updateAvatarByAdmin,
   updateUser,
 } from "@/services/api/user-api";
@@ -117,6 +118,28 @@ const UserDetail = ({ user, handleCloseUserDetail, refresh }: props) => {
     },
   });
 
+  const { mutate: mutateUnBan } = useMutation({
+    fetcher: UnBanUser,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã khóa người dùng");
+        refresh();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  function handleUnBanUser(id: string) {
+    const data = {
+      userId: id,
+    };
+    if (CheckRole(idRole)) mutateUnBan({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
+
   const { idRole } = useRole(
     useShallow((state) => ({
       idRole: state.idRole,
@@ -221,6 +244,17 @@ const UserDetail = ({ user, handleCloseUserDetail, refresh }: props) => {
                     type="submit"
                   >
                     Cập nhật
+                  </button>
+                )}
+
+                {isDisabled && user.idRole !== 2 && (
+                  <button
+                    className="flex justify-center rounded border border-stroke bg-green-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                    onClick={() => {
+                      handleUnBanUser(user.id);
+                    }}
+                  >
+                    Mở khóa
                   </button>
                 )}
 

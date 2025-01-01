@@ -7,7 +7,11 @@ import FormInput from "@/components/form-input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { deleteVoucher, updateVoucher } from "@/services/api/voucher-api";
+import {
+  deleteVoucher,
+  unDeleteVoucher,
+  updateVoucher,
+} from "@/services/api/voucher-api";
 import { VoucherType } from "@/types/voucher";
 import { VoucherStatus } from "@/constants/voucher-status";
 
@@ -84,6 +88,29 @@ const VoucherDetail = ({
     },
   });
 
+  const { mutate: mutateUnDelete } = useMutation({
+    fetcher: unDeleteVoucher,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã gỡ xóa mã giảm giá");
+        handleCloseVoucherDetail();
+        refresh();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  function handleUnDeleteVoucher(id: string) {
+    const data = {
+      id: id,
+    };
+    if (CheckRole(idRole)) mutateUnDelete({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
+
   const { idRole } = useRole(
     useShallow((state) => ({
       idRole: state.idRole,
@@ -130,6 +157,18 @@ const VoucherDetail = ({
                       Cập nhật mã giảm giá
                     </button>
                   </>
+                )}
+
+                {!isDisabled && (
+                  <button
+                    className="flex justify-center rounded border border-stroke bg-green-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleUnDeleteVoucher(voucher.id);
+                    }}
+                  >
+                    Gỡ xóa
+                  </button>
                 )}
 
                 <button

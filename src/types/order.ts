@@ -10,6 +10,7 @@ export type OrderResponseType = {
 export type ListOrderResponseType = {
   orders: OrderResponseType[];
   totalPages: number;
+  totalRecords: number;
 };
 
 export type OrderItemType = {

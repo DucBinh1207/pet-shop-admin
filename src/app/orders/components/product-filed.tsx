@@ -107,6 +107,8 @@ const ProductField: React.FC<ProductFieldProps> = ({
     }
   }, [quantity, maxQuantity, index, setValue]);
 
+  console.log({ product });
+
   return (
     <>
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
