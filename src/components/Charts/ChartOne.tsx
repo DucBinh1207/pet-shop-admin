@@ -34,7 +34,7 @@ const ChartOne = ({ startDate, endDate }: props) => {
 
   if (revenueData && revenueData.details) {
     categories = revenueData.details.map((item) => {
-      const month = item.date.split("/")[0]; // Lấy tháng từ chuỗi "MM/YYYY"
+      const month = item.date.split("/")[0]; 
       return `Tháng ${month}`;
     });
 

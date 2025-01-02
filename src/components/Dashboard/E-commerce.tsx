@@ -12,6 +12,7 @@ const ECommerce: React.FC = () => {
   dayStart.setMonth(dayStart.getMonth() - 12);
   const startDate = ConvertDayType({ date: dayStart });
   const dayEnd = new Date();
+  dayEnd.setDate(dayEnd.getDate() + 1);
   const endDate = ConvertDayType({ date: dayEnd });
 
   return (
