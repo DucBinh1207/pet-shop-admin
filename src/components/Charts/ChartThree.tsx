@@ -6,6 +6,7 @@ import { ApexOptions } from "apexcharts";
 import React from "react";
 import PieChartSkeleton from "./pie-chart-skeleton";
 import dynamic from "next/dynamic";
+import { priceRender } from "@/utils/priceRender";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -72,20 +73,30 @@ const ChartThree = ({ startDate, endDate }: props) => {
   }
 
   let series;
+  let seriesMap: { key: string; value: number }[];
 
   if (soldProductsData) {
     const total = soldProductsData.income.reduce(
       (total, item) => total + item.income,
       0,
     );
-    const incomeByPets = Math.floor(
-      (soldProductsData.income[0].income / total) * 100,
-    );
-    const incomeByFoods = Math.floor(
-      (soldProductsData.income[1].income / total) * 100,
-    );
+
+    const petsIncome =
+      soldProductsData.income.find((item) => item.category === "pets")
+        ?.income || 0;
+    const foodsIncome =
+      soldProductsData.income.find((item) => item.category === "foods")
+        ?.income || 0;
+
+    const incomeByPets = Math.floor((petsIncome / total) * 100);
+    const incomeByFoods = Math.floor((foodsIncome / total) * 100);
 
     series = [incomeByPets, incomeByFoods, 100 - incomeByPets - incomeByFoods];
+    seriesMap = [
+      { key: "pets", value: incomeByPets },
+      { key: "foods", value: incomeByFoods },
+      { key: "supplies", value: 100 - incomeByPets - incomeByFoods },
+    ];
   }
 
   if (soldProductsData && series)
@@ -106,36 +117,40 @@ const ChartThree = ({ startDate, endDate }: props) => {
         </div>
 
         <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
-          <div className="w-full px-8">
-            <div className="flex w-full items-center">
-              <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
-              <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-                <span> Thú cưng </span>
-                <span> {soldProductsData.income[0].income}đ </span>
-                <span> {series[0]}% </span>
-              </p>
-            </div>
-          </div>
-          <div className="w-full px-8">
-            <div className="flex w-full items-center">
-              <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
-              <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-                <span> Thức ăn </span>
-                <span> {soldProductsData.income[1].income}đ </span>
-                <span> {series[1]}% </span>
-              </p>
-            </div>
-          </div>
-          <div className="w-full px-8">
-            <div className="flex w-full items-center">
-              <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
-              <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-                <span> Vật dụng </span>
-                <span> {soldProductsData.income[2].income}đ </span>
-                <span> {series[2]}% </span>
-              </p>
-            </div>
-          </div>
+          {soldProductsData.income.map((item) => {
+            const colorMap = {
+              pets: "bg-primary",
+              foods: "bg-[#6577F3]",
+              supplies: "bg-[#8FD0EF]",
+            };
+            const colorClass = colorMap[item.category] || "bg-gray-300";
+
+            // Tìm giá trị phần trăm từ seriesMap dựa trên key
+            const percentage =
+              seriesMap.find((seriesItem) => seriesItem.key === item.category)
+                ?.value || 0;
+
+            return (
+              <div key={item.category} className="w-full px-8">
+                <div className="flex w-full items-center">
+                  <span
+                    className={`mr-2 block h-3 w-full max-w-3 rounded-full ${colorClass}`}
+                  ></span>
+                  <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
+                    <span>
+                      {item.category === "pets"
+                        ? "Thú cưng"
+                        : item.category === "foods"
+                          ? "Thức ăn"
+                          : "Vật dụng"}
+                    </span>
+                    <span> {priceRender(item.income)}đ </span>
+                    <span> {percentage}% </span>
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     );
