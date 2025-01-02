@@ -18,6 +18,7 @@ export type SupplyType = {
   material: string;
   brand: string;
   type: string;
+  status: number;
   variationsSupplies: VariationSupply[];
 };
 
@@ -36,4 +37,5 @@ export type SupplyResponseType = {
 export type ListSupplyResponse = {
   products: SupplyResponseType[];
   totalPages: number;
+  totalRecords: number;
 };

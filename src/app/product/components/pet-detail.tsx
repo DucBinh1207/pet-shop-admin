@@ -50,6 +50,7 @@ const PetDetail = ({ pet: petData, handleClosePetDetail, refresh }: props) => {
               <div className="p-7">
                 <ProductImage
                   id={pet.id}
+                  status={pet.status}
                   category="pets"
                   productImage={pet.image}
                   refreshDetail={refreshDetail}

@@ -12,6 +12,7 @@ import { useState } from "react";
 import useMutation from "@/hooks/use-mutation";
 import { updateReviewStatus } from "@/services/api/review-api";
 import { toastError } from "@/utils/toast";
+import useBlockScroll from "@/hooks/use-block-scroll";
 
 type props = {
   review: Review;
@@ -23,6 +24,8 @@ const ReviewDetail = ({ review, handleCloseReviewDetail, refresh }: props) => {
   const [status, setStatus] = useState<ReviewStatusType>(
     review.status as ReviewStatusType,
   );
+
+    useBlockScroll(true);
 
   const { mutate } = useMutation({
     fetcher: updateReviewStatus,

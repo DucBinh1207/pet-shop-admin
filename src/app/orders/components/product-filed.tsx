@@ -129,7 +129,7 @@ const ProductField: React.FC<ProductFieldProps> = ({
             />
             {product && product.length > 0 && (
               <div className="absolute bottom-[120%] w-full">
-                <ul className="h-[400px] w-full overflow-y-scroll rounded border px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-gray-50 dark:bg-meta-4 dark:text-white dark:focus:border-primary">
+                <ul className="max-h-[400px] w-full overflow-y-scroll rounded border px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-gray-50 dark:bg-meta-4 dark:text-white dark:focus:border-primary">
                   {product.map((item) => (
                     <li
                       key={item.productVariantId}

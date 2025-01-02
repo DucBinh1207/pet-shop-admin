@@ -41,6 +41,7 @@ const OrderTable = () => {
   const {
     orders,
     totalPages: total,
+    totalRecords,
     isLoading,
     isError,
     refresh,
@@ -129,6 +130,9 @@ const OrderTable = () => {
           </div>
 
           <div className="flex gap-[10px]">
+            <div className="flex items-center text-[18px] italic">
+              (Số lượng:{totalRecords})
+            </div>
             <div>
               <select
                 className="block w-full rounded-sm bg-gray-200 p-2.5 text-black dark:bg-gray-700 dark:text-white"

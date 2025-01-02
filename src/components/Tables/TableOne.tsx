@@ -12,7 +12,7 @@ import usePets from "@/hooks/products/usePets";
 import Pagination from "../pagination";
 import { PetResponseType } from "@/types/pet";
 import useMutation from "@/hooks/use-mutation";
-import { deleteProduct } from "@/services/api/products-api";
+import { deleteProduct, unDeleteProduct } from "@/services/api/products-api";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { ProductToDeleteType } from "@/app/product/shared/type/productToDelete";
 import useRole from "@/store/useRole";
@@ -88,6 +88,20 @@ const TableOne = () => {
     },
   });
 
+  const { mutate: mutateUnDelete } = useMutation({
+    fetcher: unDeleteProduct,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã gỡ xóa sản phẩm");
+        refresh();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
   function handleDeleteProduct(id: string) {
     const data: ProductToDeleteType = {
       idProduct: id,
@@ -97,9 +111,19 @@ const TableOne = () => {
     else toastError("Bạn không được phép thực hiện chức năng này");
   }
 
+  function handleUnDeleteProduct(id: string) {
+    const data: ProductToDeleteType = {
+      idProduct: id,
+      category: "pets",
+    };
+    if (CheckRole(idRole)) mutateUnDelete({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
+
   const {
     pets,
     totalPages: total,
+    totalRecords,
     isLoading,
     isError,
     refresh,
@@ -166,6 +190,9 @@ const TableOne = () => {
             </form>
           </div>
           <div className="flex gap-[10px]">
+            <div className="flex items-center text-[18px] italic">
+              (Số lượng:{totalRecords})
+            </div>
             <div>
               <select
                 className="block w-full rounded-sm bg-gray-200 p-2.5 text-black dark:bg-gray-700 dark:text-white"
@@ -292,7 +319,7 @@ const TableOne = () => {
                   >
                     Xem
                   </button>
-                  {!isDisabled && (
+                  {!isDisabled && pet.status !== 0 && (
                     <button
                       className="rounded bg-boxdark px-4 py-2 text-red-700 hover:bg-gray-700 focus:outline-none"
                       onClick={() => {
@@ -300,6 +327,17 @@ const TableOne = () => {
                       }}
                     >
                       Xóa
+                    </button>
+                  )}
+
+                  {CheckRole(idRole) && pet.status === 0 && (
+                    <button
+                      className="rounded bg-boxdark px-4 py-2 text-green-700 hover:bg-gray-700 focus:outline-none"
+                      onClick={() => {
+                        handleUnDeleteProduct(pet.id);
+                      }}
+                    >
+                      Gỡ xóa
                     </button>
                   )}
                 </p>

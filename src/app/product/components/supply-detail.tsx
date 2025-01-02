@@ -54,6 +54,7 @@ const SupplyDetail = ({
               <div className="p-7">
                 <ProductImage
                   id={supply.id}
+                  status={supply.status}
                   category="supplies"
                   productImage={supply.image}
                   refreshDetail={refreshDetail}

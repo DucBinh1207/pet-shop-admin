@@ -37,6 +37,7 @@ export default function useVouchers({
   return {
     vouchers: data?.vouchers,
     totalPages: data?.totalPages,
+    totalRecords: data?.totalRecords,
     isLoading,
     isError: error,
     refresh: refreshData,

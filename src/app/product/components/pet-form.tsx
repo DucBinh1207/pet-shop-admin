@@ -8,7 +8,11 @@ import {
   PetsCategoryType,
   PetsCategoryTypes,
 } from "@/constants/pets-category-type.ts";
-import { deleteProduct, updatePet } from "@/services/api/products-api";
+import {
+  deleteProduct,
+  unDeleteProduct,
+  updatePet,
+} from "@/services/api/products-api";
 import useMutation from "@/hooks/use-mutation";
 import { toastError, toastSuccess } from "@/utils/toast";
 import {
@@ -27,17 +31,17 @@ import CheckRole from "@/utils/checkRole";
 import { ProductToDeleteType } from "../shared/type/productToDelete";
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
-  price: z.string().min(1, "Province is required"),
-  health: z.string().min(1, "District is required"),
-  father: z.string().min(1, "District is required"),
-  mother: z.string().min(1, "District is required"),
-  deworming: z.string().min(1, "District is required"),
-  vaccine: z.string().min(1, "District is required"),
-  breed: z.string().min(1, "District is required"),
-  trait: z.string().min(1, "District is required"),
-  quantity: z.string().min(1, "District is required"),
+  name: z.string().min(1, "Vui lòng nhập tên"),
+  description: z.string().min(1, "Vui lòng nhập mô tả"),
+  price: z.string().min(1, "Vui lòng nhập giá "),
+  health: z.string().min(1, "Vui lòng nhập sức khỏe"),
+  father: z.string().min(1, "Vui lòng nhập bố"),
+  mother: z.string().min(1, "Vui lòng nhập mẹ"),
+  deworming: z.string().min(1, "Vui lòng nhập xổ giun"),
+  vaccine: z.string().min(1, "Vui lòng nhập vaccine"),
+  breed: z.string().min(1, "Vui lòng nhập giống"),
+  trait: z.string().min(1, "Vui lòng nhập tính cách"),
+  quantity: z.string().min(1, "Vui lòng nhập số lượng"),
 });
 
 type UpdatePetFormType = z.infer<typeof schema>;
@@ -86,8 +90,6 @@ export default function PetForm({
       idRole: state.idRole,
     })),
   );
-
-  const isDisabled = !CheckRole(idRole);
 
   const {
     register,
@@ -146,6 +148,31 @@ export default function PetForm({
     },
   });
 
+  const { mutate: mutateUnDelete } = useMutation({
+    fetcher: unDeleteProduct,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã gỡ xóa sản phẩm");
+        refresh();
+        refreshDetail();
+        handleClosePetDetail();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  function handleUnDeleteProduct(id: string) {
+    const data: ProductToDeleteType = {
+      idProduct: id,
+      category: "pets",
+    };
+    if (CheckRole(idRole)) mutateUnDelete({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
+
   const onSubmit = handleSubmit(async (data: UpdatePetFormType) => {
     const updateData = new FormData();
     updateData.append("nameTag", "pets");
@@ -179,7 +206,7 @@ export default function PetForm({
     fetcher: deleteProduct,
     options: {
       onSuccess: async () => {
-        toastSuccess("Đã xóa sản phẩm");
+        toastSuccess("Đã gỡ xóa sản phẩm");
         refresh();
         handleClosePetDetail();
       },
@@ -199,6 +226,8 @@ export default function PetForm({
     else toastError("Bạn không được phép thực hiện chức năng này");
   }
 
+  const isDisabled = !CheckRole(idRole) && pet.status === 0;
+
   return (
     <form
       className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
@@ -209,7 +238,7 @@ export default function PetForm({
           Thông tin chi tiết
         </h3>
         <div className="flex justify-end gap-4.5">
-          {!isDisabled && (
+          {!isDisabled && pet.status !== 0 && (
             <>
               <button
                 className="flex justify-center rounded bg-red-500 px-6 py-2 font-medium text-gray hover:bg-opacity-90"
@@ -225,6 +254,18 @@ export default function PetForm({
                 Cập nhật
               </button>
             </>
+          )}
+
+          {!isDisabled && pet.status === 0 && (
+            <button
+              className="flex justify-center rounded border border-stroke bg-green-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+              onClick={(e) => {
+                e.preventDefault();
+                handleUnDeleteProduct(pet.id);
+              }}
+            >
+              Gỡ xóa
+            </button>
           )}
 
           <button
@@ -254,7 +295,7 @@ export default function PetForm({
 
           <div className="mb-5.5">
             <FormInput
-              disabled={isDisabled}
+              disabled={isDisabled || pet.status === 0}
               label="Tên sản phẩm"
               id="name"
               type="text"
@@ -275,7 +316,7 @@ export default function PetForm({
             </label>
             <div className="relative">
               <textarea
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                 id="bio"
                 rows={6}
@@ -299,7 +340,7 @@ export default function PetForm({
                 Loại thú cưng
               </label>
               <select
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                 value={category}
                 onChange={handleCategoryChange}
@@ -314,7 +355,7 @@ export default function PetForm({
 
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Giống"
                 id="name"
                 type="text"
@@ -338,7 +379,7 @@ export default function PetForm({
               <div className="relative">
                 <span className="absolute left-4.5 top-4"></span>
                 <input
-                  disabled={isDisabled}
+                  disabled={isDisabled || pet.status === 0}
                   className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   type="date"
                   name="fullName"
@@ -351,7 +392,7 @@ export default function PetForm({
 
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Tính cách"
                 id="name"
                 type="text"
@@ -367,7 +408,7 @@ export default function PetForm({
           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Tiêm phòng"
                 id="name"
                 type="text"
@@ -381,7 +422,7 @@ export default function PetForm({
 
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Xổ giun"
                 id="name"
                 type="text"
@@ -397,7 +438,7 @@ export default function PetForm({
           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Bố"
                 id="name"
                 type="text"
@@ -411,7 +452,7 @@ export default function PetForm({
 
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Mẹ"
                 id="name"
                 type="text"
@@ -433,7 +474,7 @@ export default function PetForm({
                 Thuần chủng
               </label>
               <select
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                 value={breedOrigin}
                 onChange={handleBreedOriginChange}
@@ -454,7 +495,7 @@ export default function PetForm({
                 Giới tính
               </label>
               <select
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-300 disabled:text-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                 value={petGender}
                 onChange={handleGenderChange}
@@ -471,7 +512,7 @@ export default function PetForm({
           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Sức khỏe"
                 id="name"
                 type="text"
@@ -485,7 +526,7 @@ export default function PetForm({
 
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Số lượng"
                 id="name"
                 type="text"
@@ -501,7 +542,7 @@ export default function PetForm({
           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
             <div className="w-full sm:w-1/2">
               <FormInput
-                disabled={isDisabled}
+                disabled={isDisabled || pet.status === 0}
                 label="Giá"
                 id="name"
                 type="text"

@@ -134,7 +134,7 @@ const ChartOne = ({ startDate, endDate }: props) => {
         },
       },
       min: 0,
-      max: 10000000,
+      max: 100000000,
     },
   };
 

@@ -19,6 +19,7 @@ export type FoodType = {
   nutritionInfo: string;
   expireDate: string;
   brand: string;
+  status: number;
   variationsFoods: FoodVariation[];
 };
 
@@ -37,4 +38,5 @@ export type FoodResponseType = {
 export type ListFoodResponse = {
   products: FoodResponseType[];
   totalPages: number;
+  totalRecords: number;
 };

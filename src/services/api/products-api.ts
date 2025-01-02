@@ -5,7 +5,7 @@ import { toSnakeCase } from "@/utils/to-snake-case";
 import { ProductToDeleteType } from "@/app/product/shared/type/productToDelete";
 import { FoodType, ListFoodResponse } from "@/types/food";
 import { ListSupplyResponse, SupplyType } from "@/types/supply";
-import { ProductVariant } from "@/types/product";
+import { ResponseProductVariant } from "@/types/product";
 
 export async function getPets(url: string) {
   const rawData = await get<ListPetResponse>({
@@ -91,10 +91,10 @@ export async function createProduct({ data }: { data: FormData }) {
 }
 
 export async function searchProduct(url: string) {
-  const rawData = await get<ProductVariant[]>({
+  const rawData = await get<ResponseProductVariant>({
     url: url,
   });
-  const data = toCamelCase<ProductVariant[]>(rawData);
+  const data = toCamelCase<ResponseProductVariant>(rawData);
   return data;
 }
 
@@ -111,50 +111,15 @@ export async function deleteProduct({
   });
 }
 
-// export async function getPetDetail(url: string) {
-//   const rawData = await get<PetType>({
-//     url: url,
-//   });
-//   const data = toCamelCase<PetType>(rawData);
-//   return data;
-// }
+export async function unDeleteProduct({
+  data: productData,
+}: {
+  data: ProductToDeleteType;
+}) {
+  const data = toSnakeCase(productData);
 
-// export async function getFoods(url: string) {
-//   const rawData = await get<FoodResponse>({
-//     url: url,
-//   });
-//   const data = toCamelCase<FoodResponse>(rawData);
-//   return data;
-// }
-
-// export async function getFoodDetail(url: string) {
-//   const rawData = await get<FoodType>({
-//     url: url,
-//   });
-//   const data = toCamelCase<FoodType>(rawData);
-//   return data;
-// }
-
-// export async function getSupplies(url: string) {
-//   const rawData = await get<SupplyResponse>({
-//     url: url,
-//   });
-//   const data = toCamelCase<SupplyResponse>(rawData);
-//   return data;
-// }
-
-// export async function getSupplyDetail(url: string) {
-//   const rawData = await get<SupplyType>({
-//     url: url,
-//   });
-//   const data = toCamelCase<SupplyType>(rawData);
-//   return data;
-// }
-
-// export async function searchProducts(url: string) {
-//   const rawData = await get<SearchItemType[]>({
-//     url: url,
-//   });
-//   const data = toCamelCase<SearchItemType[]>(rawData);
-//   return data;
-// }
+  return await update({
+    url: "/admin/products/unDelete",
+    data,
+  });
+}

@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createVoucher } from "@/services/api/voucher-api";
+import useBlockScroll from "@/hooks/use-block-scroll";
 
 type props = {
   handleCloseAddVoucher: () => void;
@@ -15,16 +16,16 @@ type props = {
 };
 
 const schema = z.object({
-  code: z.string().min(1, "Code is required"),
+  code: z.string().min(1, "Yêu cầu nhập mã"),
   percent: z
     .string()
     .refine((val) => Number.isInteger(Number(val)) && Number(val) > 0, {
-      message: "Percent must be a positive integer",
+      message: "Phần trăm giảm giá phải lớn hơn 0",
     }),
   quantity: z
     .string()
     .refine((val) => Number.isInteger(Number(val)) && Number(val) > 0, {
-      message: "Quantity must be a positive integer",
+      message: "Số lượng phải lớn hơn 0",
     }),
 });
 
@@ -59,6 +60,8 @@ const AddVoucher = ({ handleCloseAddVoucher, refresh }: props) => {
     },
   });
 
+    useBlockScroll(true);
+
   const { idRole } = useRole(
     useShallow((state) => ({
       idRole: state.idRole,
@@ -66,7 +69,6 @@ const AddVoucher = ({ handleCloseAddVoucher, refresh }: props) => {
   );
 
   const onSubmit = handleSubmit((data: CreateVoucherType) => {
-    console.log({ data });
     mutate({ data });
   });
 

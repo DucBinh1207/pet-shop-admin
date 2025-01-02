@@ -38,6 +38,7 @@ export default function usePets({
   return {
     pets: data?.products,
     totalPages: data?.totalPages,
+    totalRecords: data?.totalRecords,
     isLoading,
     isError: error,
     refresh: refreshData,

@@ -16,7 +16,7 @@ import { toastError, toastSuccess } from "@/utils/toast";
 import useRole from "@/store/useRole";
 import CheckRole from "@/utils/checkRole";
 import { useShallow } from "zustand/shallow";
-import { banUser } from "@/services/api/user-api";
+import { banUser, UnBanUser } from "@/services/api/user-api";
 import AddUser from "@/app/user/components/add-user";
 import { useRouter } from "next/navigation";
 
@@ -28,7 +28,7 @@ const StaffTable = () => {
   useBlockScroll(user !== null);
   const [search, setSearch] = useState("");
   const [paging, setPaging] = useState(1);
-  const [status, setStatus] = useState<1 | 2>(1);
+  const [status, setStatus] = useState<0 | 1 | 2>(0);
   const [totalPages, setTotalPages] = useState(1);
   const debouncedSearch = useDebounce(search);
 
@@ -42,7 +42,7 @@ const StaffTable = () => {
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newStatus = parseInt(e.target.value, 10);
-    if (newStatus === 1 || newStatus === 2) {
+    if (newStatus === 0 || newStatus === 1 || newStatus === 2) {
       setStatus(newStatus);
       setPaging(1);
     }
@@ -56,6 +56,7 @@ const StaffTable = () => {
   const {
     users,
     totalPages: total,
+    totalRecords,
     isLoading,
     isError,
     refresh,
@@ -80,6 +81,28 @@ const StaffTable = () => {
       onFinally: () => {},
     },
   });
+
+  const { mutate: mutateUnBan } = useMutation({
+    fetcher: UnBanUser,
+    options: {
+      onSuccess: async () => {
+        toastSuccess("Đã khóa người dùng");
+        refresh();
+      },
+      onError: (error) => {
+        toastError(error.message);
+      },
+      onFinally: () => {},
+    },
+  });
+
+  function handleUnBanUser(id: string) {
+    const data = {
+      userId: id,
+    };
+    if (CheckRole(idRole)) mutateUnBan({ data });
+    else toastError("Bạn không được phép thực hiện chức năng này");
+  }
 
   const { idRole } = useRole(
     useShallow((state) => ({
@@ -160,6 +183,9 @@ const StaffTable = () => {
           </div>
 
           <div className="flex gap-[10px]">
+            <div className="flex items-center text-[18px] italic">
+              (Số lượng:{totalRecords})
+            </div>
             <div>
               <select
                 className="block w-full rounded-sm bg-gray-200 p-2.5 text-black dark:bg-gray-700 dark:text-white"
@@ -281,6 +307,16 @@ const StaffTable = () => {
                       }}
                     >
                       Khóa
+                    </button>
+                  )}
+                  {user.status === UserStatus.BANNED && CheckRole(idRole) && (
+                    <button
+                      className="rounded bg-boxdark px-4 py-2 text-green-700 hover:bg-gray-700 focus:outline-none"
+                      onClick={() => {
+                        handleUnBanUser(user.id);
+                      }}
+                    >
+                      Mở khóa
                     </button>
                   )}
                 </p>

@@ -1,4 +1,4 @@
-import {  searchProduct } from "@/services/api/products-api";
+import { searchProduct } from "@/services/api/products-api";
 import useSWR, { mutate } from "swr";
 
 type props = {
@@ -17,8 +17,9 @@ export default function useProducts({ name }: props) {
     });
   };
 
+
   return {
-    product: data,
+    product: data?.productVariants,
     isLoading,
     isError: error,
     refresh: refreshData,

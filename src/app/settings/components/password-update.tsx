@@ -8,14 +8,24 @@ import { z } from "zod";
 
 export const schema = z
   .object({
-    oldPassword: z.string().min(8, "Password must be at least 8 characters"),
-    newPassword: z.string().min(8, "Password must be at least 8 characters"),
+    oldPassword: z
+      .string()
+      .min(8, "Mật khẩu phải có ít nhất 8 ký tự")
+      .regex(/[a-zA-Z]/, "Mật khẩu phải chứa ít nhất một chữ cái")
+      .regex(/[0-9]/, "Mật khẩu phải chứa ít nhất một chữ số"),
+    newPassword: z
+      .string()
+      .min(8, "Mật khẩu phải có ít nhất 8 ký tự")
+      .regex(/[a-zA-Z]/, "Mật khẩu phải chứa ít nhất một chữ cái")
+      .regex(/[0-9]/, "Mật khẩu phải chứa ít nhất một chữ số"),
     confirmPassword: z
       .string()
-      .min(8, "Password must be at least 8 characters"),
+      .min(8, "Mật khẩu phải có ít nhất 8 ký tự")
+      .regex(/[a-zA-Z]/, "Mật khẩu phải chứa ít nhất một chữ cái")
+      .regex(/[0-9]/, "Mật khẩu phải chứa ít nhất một chữ số"),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: "Mật khẩu không khớp",
     path: ["confirm"],
   });
 

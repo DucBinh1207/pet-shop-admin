@@ -10,4 +10,5 @@ export type VoucherType = {
 export type ListVoucherResponseApi = {
   vouchers: VoucherType[];
   totalPages: number;
+  totalRecords: number;
 };

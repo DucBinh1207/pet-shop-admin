@@ -17,4 +17,5 @@ export type UserType = {
 export type ResponseGetUsersApi = {
   users: UserType[];
   totalPages: number;
+  totalRecords: number;
 };

@@ -36,6 +36,7 @@ export default function useOrder({
   return {
     orders: data?.orders,
     totalPages: data?.totalPages,
+    totalRecords: data?.totalRecords,
     isLoading,
     isError: error,
     refresh: refreshData,

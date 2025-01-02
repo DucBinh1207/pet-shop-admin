@@ -18,3 +18,7 @@ export type ProductVariant = {
   stock: string;
   price: string;
 };
+
+export type ResponseProductVariant = {
+  productVariants: ProductVariant[];
+};
