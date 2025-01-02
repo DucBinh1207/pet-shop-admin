@@ -10,36 +10,37 @@ import { useState } from "react";
 import OrderBill from "./order-bill";
 import cn from "@/utils/style/cn";
 import AddressSection from "./address-section";
+import useBlockScroll from "@/hooks/use-block-scroll";
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, "Vui lòng nhập tên"),
   telephoneNumber: z
     .string()
-    .min(3, "Phone number must be at least 3 characters")
-    .max(20, "Phone number can have a maximum of 20 characters"),
-  email: z.string().email("Invalid email format"),
-  province: z.string().min(1, "Province is required"),
-  district: z.string().min(1, "District is required"),
-  ward: z.string().min(1, "Ward is required"),
-  street: z.string().min(1, "Street is required"),
+    .min(3, "Vui lòng nhập số điện thoại với ít nhất 3 ký tự")
+    .max(20, "Vui lòng nhập số điện thoại với tối đa 20 ký tự"),
+  email: z.string().email("Vui lòng nhập email hợp lệ"),
+  province: z.string().min(1, "Vui lòng nhập tỉnh"),
+  district: z.string().min(1, "Vui lòng nhập quận/huyện"),
+  ward: z.string().min(1, "Vui lòng nhập phường/xã"),
+  street: z.string().min(1, "Vui lòng nhập đường"),
   note: z.string().optional(),
   variationsProduct: z
     .array(
       z.object({
-        productVariantId: z.string().min(1, "Ingredient is required"),
-        category: z.string().min(1, "Name is required"),
-        price: z.string().min(1, "Name is required"),
-        product: z.string().min(1, "Name is required"),
+        productVariantId: z.string().min(1, "Required"),
+        category: z.string().min(1, "Vui lòng nhập loại sản phẩm"),
+        price: z.string().min(1, "Vui lòng nhập giá"),
+        product: z.string().min(1, "Vui lòng nhập sản phẩm"),
         quantity: z
           .string()
           .regex(/^\d+$/, {
-            message: "Quantity must be a valid number",
+            message: "Vui lòng nhập số lượng hợp lệ",
           })
           .refine((val) => parseInt(val, 10) >= 1, {
-            message: "Quantity must be greater than 0",
+            message: "Số lượng phải hơn 1",
           }),
       }),
     )
-    .min(1, "At least one group is required"),
+    .min(1, "Cần ít nhất 1 sản phẩm"),
 });
 
 export type AddOrderFormType = z.infer<typeof schema>;
@@ -81,6 +82,8 @@ export default function AddOrder({ handleCloseAddOrder }: props) {
     mode: "onSubmit",
     resolver: zodResolver(schema),
   });
+
+  useBlockScroll(true);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -132,8 +135,6 @@ export default function AddOrder({ handleCloseAddOrder }: props) {
         quantity: Number(productOption.quantity),
       })),
     );
-
-    console.log({ data });
 
     const newOrder = new FormData();
     newOrder.append("name", data.name);

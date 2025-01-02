@@ -35,6 +35,7 @@ export type PetResponseType = {
   rating: number | null;
   type: string;
   price: number;
+  status: number;
 };
 
 export type ListPetResponse = {

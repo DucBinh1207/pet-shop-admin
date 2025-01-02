@@ -190,7 +190,9 @@ const TableTwo = () => {
             </form>
           </div>
           <div className="flex gap-[10px]">
-            <div className=" flex items-center text-[18px] italic">(Số lượng:{totalRecords})</div>
+            <div className="flex items-center text-[18px] italic">
+              (Số lượng:{totalRecords})
+            </div>
             <div>
               <select
                 className="block w-full rounded-sm bg-gray-200 p-2.5 text-black dark:bg-gray-700 dark:text-white"
@@ -317,7 +319,7 @@ const TableTwo = () => {
                   >
                     Xem
                   </button>
-                  {!isDisabled && (
+                  {!isDisabled && food.status !== 0 && (
                     <button
                       className="rounded bg-boxdark px-4 py-2 text-red-700 hover:bg-gray-700 focus:outline-none"
                       onClick={() => {
@@ -327,7 +329,7 @@ const TableTwo = () => {
                       Xóa
                     </button>
                   )}
-                  {isDisabled && (
+                  {CheckRole(idRole) && food.status === 0 && (
                     <button
                       className="rounded bg-boxdark px-4 py-2 text-green-700 hover:bg-gray-700 focus:outline-none"
                       onClick={() => {

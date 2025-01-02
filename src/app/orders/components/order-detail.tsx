@@ -2,6 +2,7 @@ import { OrderResponseType } from "@/types/order";
 import useOrderDetail from "@/hooks/order/userOrderDetail";
 import TableSkeleton from "@/components/Tables/table-skeleton";
 import OrderForm from "./order-form";
+import useBlockScroll from "@/hooks/use-block-scroll";
 
 type props = {
   order: OrderResponseType;
@@ -22,6 +23,8 @@ const OrderDetail = ({
   } = useOrderDetail({
     orderId: orderData.id,
   });
+
+  useBlockScroll(true);
 
   if (isError) window.location.href = "/error";
 

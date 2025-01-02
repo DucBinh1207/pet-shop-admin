@@ -319,7 +319,7 @@ const TableThree = () => {
                   >
                     Xem
                   </button>
-                  {!isDisabled && (
+                  {!isDisabled && supply.status !== 0 && (
                     <button
                       className="rounded bg-boxdark px-4 py-2 text-red-700 hover:bg-gray-700 focus:outline-none"
                       onClick={() => {
@@ -329,7 +329,7 @@ const TableThree = () => {
                       Xóa
                     </button>
                   )}
-                  {isDisabled && (
+                  {CheckRole(idRole) && supply.status === 0 && (
                     <button
                       className="rounded bg-boxdark px-4 py-2 text-green-700 hover:bg-gray-700 focus:outline-none"
                       onClick={() => {

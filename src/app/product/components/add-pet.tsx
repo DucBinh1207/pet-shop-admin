@@ -25,17 +25,17 @@ import useMutation from "@/hooks/use-mutation";
 import { createProduct } from "@/services/api/products-api";
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
-  price: z.string().min(1, "Province is required"),
-  health: z.string().min(1, "District is required"),
-  father: z.string().min(1, "District is required"),
-  mother: z.string().min(1, "District is required"),
-  deworming: z.string().min(1, "District is required"),
-  vaccine: z.string().min(1, "District is required"),
-  breed: z.string().min(1, "District is required"),
-  trait: z.string().min(1, "District is required"),
-  quantity: z.string().min(1, "District is required"),
+  name: z.string().min(1, "Vui lòng nhập tên"),
+  description: z.string().min(1, "Vui lòng nhập mô tả"),
+  price: z.string().min(1, "Vui lòng nhập giá "),
+  health: z.string().min(1, "Vui lòng nhập sức khỏe"),
+  father: z.string().min(1, "Vui lòng nhập bố"),
+  mother: z.string().min(1, "Vui lòng nhập mẹ"),
+  deworming: z.string().min(1, "Vui lòng nhập xổ giun"),
+  vaccine: z.string().min(1, "Vui lòng nhập vaccine"),
+  breed: z.string().min(1, "Vui lòng nhập giống"),
+  trait: z.string().min(1, "Vui lòng nhập tính cách"),
+  quantity: z.string().min(1, "Vui lòng nhập số lượng"),
 });
 
 type AddPetFormType = z.infer<typeof schema>;

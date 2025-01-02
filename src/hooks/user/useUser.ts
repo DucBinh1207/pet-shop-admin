@@ -6,7 +6,7 @@ type props = {
   paging: number;
   limit?: number;
   idRole: 1 | 2 | 3;
-  status: 1 | 2;
+  status: 0 | 1 | 2;
 };
 
 export default function useUser({
@@ -22,7 +22,7 @@ export default function useUser({
   params.append("page", paging.toString());
   params.append("limit", limit.toString());
   params.append("id_role", idRole.toString());
-  params.append("status", status.toString());
+  if (status !== 0) params.append("status", status.toString());
 
   const { data, error, isLoading } = useSWR(
     "/admin/users/get?" + params.toString(),

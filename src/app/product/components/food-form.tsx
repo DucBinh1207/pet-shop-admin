@@ -22,36 +22,36 @@ import { ProductToDeleteType } from "../shared/type/productToDelete";
 import { FoodType } from "@/types/food";
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
-  nutritionInfo: z.string().min(1, "District is required"),
-  brand: z.string().min(1, "District is required"),
+  name: z.string().min(1, "Vui lòng nhập tên"),
+  description: z.string().min(1, "Vui lòng nhập mô tả"),
+  nutritionInfo: z.string().min(1, "Vui lòng nhập chất dinh dưỡng"),
+  brand: z.string().min(1, "Vui lòng nhập thương hiệu"),
   variationsFood: z
     .array(
       z.object({
-        productVariantId: z.string().min(1, "Ingredient is required"),
-        ingredient: z.string().min(1, "Ingredient is required"),
-        weight: z.string().min(1, "Weight is required"),
+        productVariantId: z.string().min(1, "Yêu cầu"),
+        ingredient: z.string().min(1, "Vui lòng nhập nguyên liệu"),
+        weight: z.string().min(1, "Vui lòng nhập cân nặng"),
         quantity: z
           .string()
           .regex(/^\d+$/, {
-            message: "Quantity must be a valid number",
+            message: "Vui lòng nhập số lượng hợp lệ",
           })
           .refine((val) => parseInt(val, 10) >= 1, {
-            message: "Quantity must be greater than 0",
+            message: "Số lượng phải hơn 1",
           }),
 
         price: z
           .string()
           .regex(/^\d+(\.\d{1,2})?$/, {
-            message: "Price must be a valid number",
+            message: "Vui lòng nhập giá hợp lệ",
           })
           .refine((val) => parseFloat(val) >= 0, {
-            message: "Price must be a positive number",
+            message: "Giá phải lớn hơn hoặc bằng 0",
           }),
       }),
     )
-    .min(1, "At least one group is required"),
+    .min(1, "Cần ít nhất 1 lựa chọn"),
 });
 
 type UpdatePetFormType = z.infer<typeof schema>;
@@ -166,8 +166,9 @@ export default function FoodForm({
     setDate(date.toISOString().replace(".000", ""));
   }
 
+  
+
   const onSubmit = handleSubmit(async (data: UpdatePetFormType) => {
-    console.log({ data });
     const foods = JSON.stringify(
       data.variationsFood.map((foodOption) => ({
         product_variant_id: foodOption.productVariantId,
@@ -244,7 +245,7 @@ export default function FoodForm({
             </>
           )}
 
-          {isDisabled && (
+          {CheckRole(idRole) && food.status === 0 && (
             <button
               className="flex justify-center rounded border border-stroke bg-green-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
               onClick={(e) => {

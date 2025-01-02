@@ -16,7 +16,6 @@ export async function updateReviewStatus({
 }: {
   data: { id: string; status: number };
 }) {
-  console.log({ data });
   return await update({
     url: "/admin/comments/status",
     data,

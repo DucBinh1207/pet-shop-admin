@@ -14,6 +14,7 @@ import {
 } from "@/services/api/voucher-api";
 import { VoucherType } from "@/types/voucher";
 import { VoucherStatus } from "@/constants/voucher-status";
+import useBlockScroll from "@/hooks/use-block-scroll";
 
 type props = {
   voucher: VoucherType;
@@ -23,16 +24,16 @@ type props = {
 
 const schema = z.object({
   id: z.string().min(1, "id is required"),
-  code: z.string().min(1, "Code is required"),
+  code: z.string().min(1, "Yêu cầu nhập mã"),
   percent: z
     .string()
     .refine((val) => Number.isInteger(Number(val)) && Number(val) > 0, {
-      message: "Percent must be a positive integer",
+      message: "Phần trăm giảm giá phải lớn hơn 0",
     }),
   quantity: z
     .string()
     .refine((val) => Number.isInteger(Number(val)) && Number(val) > 0, {
-      message: "Quantity must be a positive integer",
+      message: "Số lượng phải lớn hơn 0",
     }),
 });
 
@@ -110,6 +111,8 @@ const VoucherDetail = ({
     if (CheckRole(idRole)) mutateUnDelete({ data });
     else toastError("Bạn không được phép thực hiện chức năng này");
   }
+
+    useBlockScroll(true);
 
   const { idRole } = useRole(
     useShallow((state) => ({

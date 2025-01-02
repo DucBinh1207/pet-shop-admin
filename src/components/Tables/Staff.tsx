@@ -28,7 +28,7 @@ const StaffTable = () => {
   useBlockScroll(user !== null);
   const [search, setSearch] = useState("");
   const [paging, setPaging] = useState(1);
-  const [status, setStatus] = useState<1 | 2>(1);
+  const [status, setStatus] = useState<0 | 1 | 2>(0);
   const [totalPages, setTotalPages] = useState(1);
   const debouncedSearch = useDebounce(search);
 
@@ -42,7 +42,7 @@ const StaffTable = () => {
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newStatus = parseInt(e.target.value, 10);
-    if (newStatus === 1 || newStatus === 2) {
+    if (newStatus === 0 || newStatus === 1 || newStatus === 2) {
       setStatus(newStatus);
       setPaging(1);
     }

@@ -8,12 +8,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  telephoneNumber: z.string().min(1, "TelephoneNumber is required"),
-  nationality: z.string().min(1, "Nationality is required"),
-  province: z.string().min(1, "Province is required"),
-  district: z.string().min(1, "District is required"),
-  ward: z.string().min(1, "Ward is required"),
+  name: z.string().min(1, "Vui lòng nhập tên"),
+  telephoneNumber: z.string().min(1, "Vui lòng nhập số điện thoại"),
+  nationality: z.string().min(1, "Vui lòng nhập quốc tịch"),
+  province: z.string().min(1, "Vui lòng nhập tỉnh"),
+  district: z.string().min(1, "Vui lòng nhập quận/huyện"),
+  ward: z.string().min(1, "Vui lòng nhập phường/xã"),
   street: z.string().optional(),
 });
 

@@ -82,6 +82,7 @@ const UserDetail = ({ user, handleCloseUserDetail, refresh }: props) => {
       onSuccess: async () => {
         toastSuccess("Đã khóa người dùng");
         refresh();
+        handleCloseUserDetail();
       },
       onError: (error) => {
         toastError(error.message);
@@ -124,6 +125,7 @@ const UserDetail = ({ user, handleCloseUserDetail, refresh }: props) => {
       onSuccess: async () => {
         toastSuccess("Đã khóa người dùng");
         refresh();
+        handleCloseUserDetail();
       },
       onError: (error) => {
         toastError(error.message);
@@ -247,7 +249,7 @@ const UserDetail = ({ user, handleCloseUserDetail, refresh }: props) => {
                   </button>
                 )}
 
-                {isDisabled && user.idRole !== 2 && (
+                {isDisabled && user.idRole !== 2 && CheckRole(idRole) && (
                   <button
                     className="flex justify-center rounded border border-stroke bg-green-700 px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
                     onClick={() => {

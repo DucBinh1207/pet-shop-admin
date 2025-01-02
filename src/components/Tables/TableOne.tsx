@@ -319,7 +319,7 @@ const TableOne = () => {
                   >
                     Xem
                   </button>
-                  {!isDisabled && (
+                  {!isDisabled && pet.status !== 0 && (
                     <button
                       className="rounded bg-boxdark px-4 py-2 text-red-700 hover:bg-gray-700 focus:outline-none"
                       onClick={() => {
@@ -330,7 +330,7 @@ const TableOne = () => {
                     </button>
                   )}
 
-                  {isDisabled && (
+                  {CheckRole(idRole) && pet.status === 0 && (
                     <button
                       className="rounded bg-boxdark px-4 py-2 text-green-700 hover:bg-gray-700 focus:outline-none"
                       onClick={() => {

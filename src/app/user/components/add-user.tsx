@@ -66,6 +66,7 @@ const AddUser = ({ handleCloseAddUser, refresh }: props) => {
       onSuccess: async () => {
         toastSuccess("Đã thêm người dùng");
         refresh();
+        handleCloseAddUser();
       },
       onError: (error) => {
         toastError(error.message);
